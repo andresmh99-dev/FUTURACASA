@@ -31,6 +31,7 @@ Sitio web estático y repositorio de archivos técnicos para el **Levantamiento 
 ├── index.html                                  # Sitio web interactivo (listo para GitHub Pages)
 ├── styles.css                                  # Estilos arquitectónicos y responsive
 ├── app.js                                      # Poligonal SVG a escala real y tabla interactiva
+├── viewer3d.js                                 # Visor 3D Three.js, recorrido guiado y modo caminar
 ├── .nojekyll                                   # Desactiva Jekyll en GitHub Pages
 └── assets/
     ├── levantamiento-topografico-lote8.pdf     # Plano topográfico oficial (Hoja 1 de 2)

@@ -395,39 +395,3 @@ function renderSVG() {
 
 buildTable();
 renderSVG();
-
-// Controles del visor 3D interactivo (<model-viewer>)
-const modelViewer = document.getElementById("lot-model-viewer");
-const viewerFallback = document.getElementById("viewer-fallback");
-const toggleRotateBtn = document.getElementById("toggle-rotate");
-
-if (modelViewer) {
-  document.querySelectorAll(".chip-btn[data-orbit]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      modelViewer.cameraOrbit = btn.dataset.orbit;
-      modelViewer.jumpCameraToGoal?.();
-      document.querySelectorAll(".chip-btn[data-orbit]").forEach((b) => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-    });
-  });
-
-  if (toggleRotateBtn) {
-    toggleRotateBtn.addEventListener("click", () => {
-      const enabled = modelViewer.hasAttribute("auto-rotate");
-      if (enabled) {
-        modelViewer.removeAttribute("auto-rotate");
-      } else {
-        modelViewer.setAttribute("auto-rotate", "");
-      }
-      toggleRotateBtn.classList.toggle("is-active", !enabled);
-    });
-  }
-
-  modelViewer.addEventListener("error", () => {
-    if (viewerFallback) viewerFallback.hidden = false;
-  });
-
-  if (window.location.protocol === "file:" && viewerFallback) {
-    viewerFallback.hidden = false;
-  }
-}

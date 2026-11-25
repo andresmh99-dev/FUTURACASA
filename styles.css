@@ -465,16 +465,155 @@ tbody tr.is-active {
 .viewer-stage {
   position: relative;
   width: 100%;
-  height: 460px;
-  background:
-    radial-gradient(circle at 50% 35%, #ffffff 0%, #ebe8e0 100%);
+  height: 480px;
+  background: radial-gradient(circle at 50% 35%, #ffffff 0%, #ebe8e0 100%);
+  overflow: hidden;
 }
 
-model-viewer {
+.viewer-stage canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
-  --poster-color: transparent;
+}
+
+.viewer-card:fullscreen .viewer-stage {
+  height: calc(100vh - 150px);
+}
+
+.viewer-toolbar {
+  flex-wrap: wrap;
+}
+
+.clip-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-family: "JetBrains Mono", monospace;
+  color: var(--ink-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+}
+
+.clip-control input[type="range"] {
+  width: 78px;
+  accent-color: var(--accent);
+}
+
+.walk-hud {
+  position: absolute;
+  inset: 0.75rem;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 4;
+}
+
+.walk-hud[hidden] {
+  display: none;
+}
+
+.walk-floors,
+.walk-pad {
+  pointer-events: auto;
+}
+
+.walk-floors {
+  display: flex;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  padding: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.walk-pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(6px);
+  padding: 0.45rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.walk-pad-row {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.walk-pad button {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.walk-pad button:active {
+  background: var(--blueprint);
+  color: #fff;
+}
+
+.tour-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1.2rem;
+  border-top: 1px solid var(--border);
+  background: #faf9f6;
+  flex-wrap: wrap;
+}
+
+.tour-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.84rem;
+}
+
+.tour-info span {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
+.tour-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tour-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.tour-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: none;
+  padding: 0;
+  background: var(--border);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.tour-dot.is-active {
+  background: var(--accent);
+  transform: scale(1.25);
 }
 
 .viewer-fallback {
