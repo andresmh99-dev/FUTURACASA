@@ -15,7 +15,11 @@ function initTour360() {
   const hotspotsLayer = document.getElementById("tour360-hotspots");
   const titleEl = document.getElementById("tour360-title");
   const descEl = document.getElementById("tour360-desc");
+  const floorEl = document.getElementById("tour360-floor");
+  const fadeEl = document.getElementById("tour360-fade");
   const navStrip = document.getElementById("tour360-stops");
+  const prevBtn = document.getElementById("tour360-prev");
+  const nextBtn = document.getElementById("tour360-next");
   const autoBtn = document.getElementById("tour360-autopan");
   const fsBtn = document.getElementById("tour360-fullscreen");
   const cardEl = document.getElementById("tour360-card");
@@ -24,6 +28,7 @@ function initTour360() {
   const SCENES = [
     {
       id: "fachada",
+      floor: "Exterior · Sur-Este",
       label: "1. Fachada y Voladizo",
       desc: "Modelo exacto 1:1 (15.07 m × 20.60 m) desde esquina Sur-Este con volumen en voladizo y árboles del patio.",
       src: "assets/panoramas/01_fachada_esquina.jpg",
@@ -37,8 +42,9 @@ function initTour360() {
     },
     {
       id: "entrada",
+      floor: "Nivel Acceso · Z -0.62 m",
       label: "2. Entrada y Cochera",
-      desc: "Cochera real a nivel calle con celosía de madera, pérgola, macetero y puerta pivotante principal.",
+      desc: "Cochera real a nivel calle con celosía de madera, pérgola, escalones con LED y puerta pivotante principal.",
       src: "assets/panoramas/02_fachada_entrada.jpg",
       initialYaw: 0.78,
       initialPitch: 0.02,
@@ -50,8 +56,9 @@ function initTour360() {
     },
     {
       id: "pasillo",
+      floor: "Planta Alta · Z +0.15 m",
       label: "3. Pasillo y Escaleras (PA)",
-      desc: "Pasillo real de planta alta con escaleras hacia sótano, cocina con isla, sala en L y ventanal panorámico.",
+      desc: "Pasillo real de planta alta con escaleras hacia sótano, cocina con isla real de mármol, sala en L y ventanal panorámico.",
       src: "assets/panoramas/03_pasillo_escaleras.jpg",
       initialYaw: -1.65,
       initialPitch: -0.04,
@@ -63,8 +70,9 @@ function initTour360() {
     },
     {
       id: "sala",
+      floor: "Planta Alta · Z +0.15 m",
       label: "4. Sala, Comedor y Cocina",
-      desc: "Área social 1:1 en nivel superior: cocina de mármol e isla real, sala en L, comedor y ventanal panorámico.",
+      desc: "Área social 1:1 en nivel superior: cocina de mármol e isla real, sala en L, comedor panorámico y lomas boscosas.",
       src: "assets/panoramas/04_sala_cocina.jpg",
       initialYaw: -2.25,
       initialPitch: -0.04,
@@ -76,8 +84,9 @@ function initTour360() {
     },
     {
       id: "patio",
+      floor: "Planta Baja · Z -3.09 m",
       label: "5. Patio Jardín (PB)",
-      desc: "Patio real (6.1 m × 13.4 m) con árboles en flor, sombras moteadas, rocas, lavanda, terraza y los 3 cuartos.",
+      desc: "Patio real (6.1 m × 13.4 m) con árboles frondosos en flor, sombras moteadas, rocas, lavanda, terraza y los 3 cuartos.",
       src: "assets/panoramas/05_patio_jardin.jpg",
       initialYaw: -2.05,
       initialPitch: 0.02,
@@ -89,6 +98,7 @@ function initTour360() {
     },
     {
       id: "recamara_principal",
+      floor: "Planta Baja · Z -2.89 m",
       label: "6. Recámara Principal (PB)",
       desc: "Recámara Principal real (Z = -2.89 m) con vestidor al fondo, escalera por pasillo, cuadros y salida al jardín.",
       src: "assets/panoramas/06_recamara_principal.jpg",
@@ -101,6 +111,7 @@ function initTour360() {
     },
     {
       id: "recamaras_tv",
+      floor: "Planta Baja · Z -2.89 m",
       label: "7. Recámaras 1, 2 y Sala TV",
       desc: "Cuarto Norte de planta baja con mueble TV, cama, cuadros, vista directa a la terraza del jardín y acceso a escaleras.",
       src: "assets/panoramas/07_recamaras_sala_tv.jpg",
@@ -114,6 +125,7 @@ function initTour360() {
     },
     {
       id: "celosia",
+      floor: "Exterior · Oeste",
       label: "8. Fachada Oeste y Celosía",
       desc: "Fachada Oeste exacta sobre la pendiente vial con el volumen blanco monolítico y celosía vertical de madera.",
       src: "assets/panoramas/08_fachada_celosia.jpg",
@@ -157,12 +169,13 @@ function initTour360() {
   function loadScene(idx) {
     currentIdx = (idx + SCENES.length) % SCENES.length;
     const st = SCENES[currentIdx];
-    yaw = st.initialYaw;
-    pitch = st.initialPitch;
+
+    if (fadeEl) fadeEl.classList.add("is-fading");
 
     if (titleEl) titleEl.textContent = st.label;
     if (descEl) descEl.textContent = st.desc;
-    if (statusEl) statusEl.textContent = `Cargando panorama 360° (${st.label})…`;
+    if (floorEl && st.floor) floorEl.textContent = st.floor;
+    if (statusEl) statusEl.textContent = `Cargando panorama 360° 3K (${st.label})…`;
 
     if (navStrip) {
       navStrip.querySelectorAll("button").forEach((b, i) => {
@@ -175,11 +188,16 @@ function initTour360() {
       tex.minFilter = THREE.LinearFilter;
       sphereMat.map = tex;
       sphereMat.needsUpdate = true;
-      if (statusEl) statusEl.textContent = "Arrastra 360° para mirar · Usa los botones o puntos para recorrer toda la casa";
+      yaw = st.initialYaw;
+      pitch = st.initialPitch;
+      if (fadeEl) {
+        requestAnimationFrame(() => fadeEl.classList.remove("is-fading"));
+      }
+      if (statusEl) statusEl.textContent = "3K Cycles 1:1 · Arrastra 360° o haz clic en los puntos";
     };
 
     if (texCache.has(st.src)) {
-      applyTex(texCache.get(st.src));
+      setTimeout(() => applyTex(texCache.get(st.src)), 120);
     } else {
       texLoader.load(
         st.src,
@@ -189,6 +207,7 @@ function initTour360() {
         },
         undefined,
         () => {
+          if (fadeEl) fadeEl.classList.remove("is-fading");
           if (statusEl) statusEl.textContent = "Panorama 360° pendiente de renderizar en Blender.";
         }
       );
@@ -231,6 +250,9 @@ function initTour360() {
       navStrip.appendChild(btn);
     });
   }
+
+  prevBtn?.addEventListener("click", () => loadScene(currentIdx - 1));
+  nextBtn?.addEventListener("click", () => loadScene(currentIdx + 1));
 
   autoBtn?.addEventListener("click", () => {
     autoPan = !autoPan;

@@ -460,3 +460,26 @@ window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") openLightbox(currentRenderIdx - 1);
   if (e.key === "ArrowRight") openLightbox(currentRenderIdx + 1);
 });
+
+// Selector dual de planos PDF (Arquitectónico A-1 / Levantamiento Topográfico)
+const pdfFrame = document.getElementById("pdf-viewer-frame");
+const pdfOpenLink = document.getElementById("pdf-open-link");
+const pdfDownloadLink = document.getElementById("pdf-download-link");
+const pdfFallbackLink = document.getElementById("pdf-fallback-link");
+
+document.querySelectorAll("[data-pdf]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const url = btn.dataset.pdf;
+    const title = btn.dataset.pdfTitle || "Plano PDF";
+    if (pdfFrame) {
+      pdfFrame.src = `${url}#view=FitH`;
+      pdfFrame.title = title;
+    }
+    if (pdfOpenLink) pdfOpenLink.href = url;
+    if (pdfDownloadLink) pdfDownloadLink.href = url;
+    if (pdfFallbackLink) pdfFallbackLink.href = url;
+
+    document.querySelectorAll("[data-pdf]").forEach((b) => b.classList.remove("is-active"));
+    btn.classList.add("is-active");
+  });
+});

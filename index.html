@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lote 8, Manzana 147 — Levantamiento Topográfico y Modelo 3D</title>
-  <meta name="description" content="Levantamiento topográfico arquitectónico y modelo 3D SketchUp del Lote 8, Manzana 147, Fraccionamiento México, Morelia, Michoacán. Área total 281.30 m²." />
+  <title>Lote 8, Manzana 147 — Proyecto Arquitectónico y Recorrido Virtual 360°</title>
+  <meta name="description" content="Expediente digital del proyecto residencial en Lote 8, Manzana 147, Fraccionamiento México, Morelia, Michoacán (281.30 m²): recorrido 360° 1:1 en Blender 5 Cycles, maqueta 3D abierta, galería de renders, plano arquitectónico A-1 y levantamiento topográfico." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -33,8 +33,8 @@
         <a href="#plano-pdf">Planos</a>
       </nav>
       <div class="topbar-actions">
-        <a class="btn btn-outline btn-sm" href="assets/levantamiento-topografico-lote8.pdf" download>PDF</a>
-        <a class="btn btn-primary btn-sm" href="assets/L8_MEXICO_SKP_3.skp" download>Descargar .SKP</a>
+        <a class="btn btn-outline btn-sm" href="assets/plano-arquitectonico-A1.pdf" target="_blank" rel="noopener">Plano A-1</a>
+        <a class="btn btn-primary btn-sm" href="#recorrido-360">Recorrido 360°</a>
       </div>
     </div>
   </header>
@@ -42,11 +42,11 @@
   <main id="inicio">
     <section class="hero">
       <div class="container">
-        <p class="eyebrow">Levantamiento Topográfico Arquitectónico · Hoja 1 de 2</p>
+        <p class="eyebrow">Proyecto Arquitectónico A-1 · Levantamiento Topográfico · 281.30 m²</p>
         <h1>Lote 8, Manzana 147<br /><span class="subtitle">Fraccionamiento México, Morelia, Mich.</span></h1>
         <p class="hero-lead">
-          Expediente digital del predio ubicado en Colonia Puerto de Buenavista, Morelia, Michoacán.
-          Incluye poligonal interactiva calculada desde coordenadas UTM, cuadro de construcción, plano topográfico oficial en PDF y modelo 3D en SketchUp.
+          Expediente digital interactivo del proyecto residencial en Colonia Puerto de Buenavista, Morelia, Michoacán.
+          Incluye recorrido virtual 360° fotorealista sobre la geometría exacta 1:1 en Blender 5 Cycles, maqueta 3D abierta exportable a .GLB, galería de renders, poligonal UTM y planos oficiales en PDF.
         </p>
 
         <div class="hero-cta">
@@ -102,7 +102,7 @@
       <div class="container">
         <div class="section-header">
           <div>
-            <p class="eyebrow">Renderizado Fotorealista · Blender 5 Cycles</p>
+            <p class="eyebrow">Geometría Exacta 1:1 · Blender 5 Cycles 3K</p>
             <h2>Recorrido Virtual 360° de la Casa</h2>
           </div>
           <div class="header-actions">
@@ -116,12 +116,16 @@
           <div class="svg-header viewer-toolbar">
             <div class="viewer-controls" id="tour360-stops" role="group" aria-label="Espacios del recorrido 360°"></div>
             <div class="viewer-controls">
+              <button type="button" class="chip-btn" id="tour360-prev" aria-label="Espacio anterior">←</button>
+              <button type="button" class="chip-btn" id="tour360-next" aria-label="Siguiente espacio">→</button>
               <button type="button" class="chip-btn is-active" id="tour360-autopan">Giro suave</button>
               <button type="button" class="chip-btn" id="tour360-fullscreen" title="Pantalla completa">⛶</button>
             </div>
           </div>
 
           <div class="tour360-stage" id="tour360-canvas-wrap">
+            <span class="tour360-floor-badge" id="tour360-floor">Exterior</span>
+            <div class="tour360-fade" id="tour360-fade"></div>
             <div class="tour360-hotspots" id="tour360-hotspots"></div>
           </div>
 
@@ -130,7 +134,7 @@
               <strong id="tour360-title">1. Fachada y Voladizo</strong>
               <span id="tour360-desc">Vista 360° exterior renderizada en Blender 5 Cycles.</span>
             </div>
-            <span id="tour360-status" class="mono-tag">Blender 5 Cycles · 360°</span>
+            <span id="tour360-status" class="mono-tag">Blender 5 Cycles 3K · 8 paradas 1:1</span>
           </div>
         </div>
       </div>
@@ -398,13 +402,21 @@
         <div class="section-header">
           <div>
             <p class="eyebrow">Documentación oficial</p>
-            <h2>Plano Topográfico (PDF)</h2>
+            <h2>Planos Arquitectónico y Topográfico (PDF)</h2>
           </div>
           <div class="header-actions">
-            <a class="btn btn-outline btn-sm" href="assets/levantamiento-topografico-lote8.pdf" target="_blank" rel="noopener">
-              Abrir en nueva pestaña
+            <div class="viewer-controls" role="tablist" aria-label="Seleccionar plano PDF">
+              <button type="button" class="chip-btn is-active" data-pdf="assets/plano-arquitectonico-A1.pdf" data-pdf-title="Plano Arquitectónico — Lámina A-1">
+                Arquitectónico A-1
+              </button>
+              <button type="button" class="chip-btn" data-pdf="assets/levantamiento-topografico-lote8.pdf" data-pdf-title="Levantamiento Topográfico — Hoja 1 de 2">
+                Topográfico
+              </button>
+            </div>
+            <a class="btn btn-outline btn-sm" id="pdf-open-link" href="assets/plano-arquitectonico-A1.pdf" target="_blank" rel="noopener">
+              Abrir en pestaña
             </a>
-            <a class="btn btn-primary btn-sm" href="assets/levantamiento-topografico-lote8.pdf" download>
+            <a class="btn btn-primary btn-sm" id="pdf-download-link" href="assets/plano-arquitectonico-A1.pdf" download>
               Descargar PDF
             </a>
           </div>
@@ -412,13 +424,14 @@
 
         <div class="card pdf-card">
           <iframe
-            src="assets/levantamiento-topografico-lote8.pdf#view=FitH"
-            title="Levantamiento Topográfico Arquitectónico — Lote 8, Manzana 147"
+            id="pdf-viewer-frame"
+            src="assets/plano-arquitectonico-A1.pdf#view=FitH"
+            title="Plano Arquitectónico — Lámina A-1"
             class="pdf-frame"
           ></iframe>
           <div class="pdf-fallback">
             ¿No se muestra el visor integrado en tu dispositivo?
-            <a href="assets/levantamiento-topografico-lote8.pdf" target="_blank" rel="noopener">Abre o descarga el PDF aquí</a>.
+            <a id="pdf-fallback-link" href="assets/plano-arquitectonico-A1.pdf" target="_blank" rel="noopener">Abre o descarga el PDF activo aquí</a>.
           </div>
         </div>
       </div>
@@ -429,43 +442,43 @@
         <div class="section-header">
           <div>
             <p class="eyebrow">Datos de referencia</p>
-            <h2>Especificaciones Técnicas</h2>
+            <h2>Especificaciones Técnicas y Programa</h2>
           </div>
         </div>
 
         <div class="specs-grid">
           <div class="card spec-card">
-            <h3>Propiedad y Ubicación</h3>
+            <h3>Propiedad y Programa Arquitectónico</h3>
             <dl class="meta-list">
               <div>
-                <dt>Descripción</dt>
-                <dd>Lote 8, Manzana 147, Fraccionamiento México</dd>
+                <dt>Predio</dt>
+                <dd>Lote 8, Manzana 147, Fracc. México · Col. Puerto de Buenavista, Morelia</dd>
               </div>
               <div>
-                <dt>Colonia / Ciudad</dt>
-                <dd>Colonia Puerto de Buenavista, Morelia, Michoacán</dd>
+                <dt>Proyecto (Lámina A-1)</dt>
+                <dd>Arq. Salvador Emmanuel Valencia Contreras</dd>
               </div>
               <div>
-                <dt>Referencia vial</dt>
-                <dd>Acceso por Av. Tres Marías / Calle Zacamixtle</dd>
+                <dt>Sótano / Planta Baja</dt>
+                <dd>Recámara Principal + Vestidor, Recámaras 1 y 2, Sala TV, Baños y Patio Jardín</dd>
               </div>
               <div>
-                <dt>Coordenadas aprox.</dt>
-                <dd>UTM 14N · X: 276,463.465 · Y: 2,178,461.832</dd>
+                <dt>Primera Planta y Azotea</dt>
+                <dd>Cochera con celosía y pérgola, Studio, Cocina, Comedor, Estancia y Escalera</dd>
               </div>
             </dl>
           </div>
 
           <div class="card spec-card">
-            <h3>Levantamiento y Dibujo</h3>
+            <h3>Levantamiento Topográfico</h3>
             <dl class="meta-list">
               <div>
                 <dt>Instrumentación</dt>
-                <dd>Medición topográfica con estación total electrónica</dd>
+                <dd>Estación total electrónica · Curvas de nivel c/ 0.50 m</dd>
               </div>
               <div>
                 <dt>Georreferencia</dt>
-                <dd>UTM aproximadas con navegador de mano (precisión 5 m)</dd>
+                <dd>UTM 14N aprox. (5 m) · X: 276,463.465 · Y: 2,178,461.832</dd>
               </div>
               <div>
                 <dt>Responsable</dt>
@@ -486,9 +499,13 @@
     <div class="container footer-inner">
       <p>Proyecto Lote 8, Manzana 147 · Fraccionamiento México, Morelia, Mich.</p>
       <p class="footer-links">
-        <a href="assets/levantamiento-topografico-lote8.pdf" download>Plano PDF</a>
+        <a href="assets/plano-arquitectonico-A1.pdf" download>Plano A-1 (PDF)</a>
         <span>·</span>
-        <a href="assets/L8_MEXICO_SKP_3.skp" download>Modelo .SKP</a>
+        <a href="assets/levantamiento-topografico-lote8.pdf" download>Topográfico (PDF)</a>
+        <span>·</span>
+        <a href="blender/casa_l8_mexico.blend" download>Proyecto .BLEND</a>
+        <span>·</span>
+        <a href="assets/L8_MEXICO_SKP_3.skp" download>Original .SKP</a>
       </p>
     </div>
   </footer>
