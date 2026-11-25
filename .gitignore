@@ -4,3 +4,4 @@ desktop.ini
 *.log
 optix7cache.db
 *.blend1
+.cache/
