@@ -26,11 +26,11 @@
         <span class="brand-text">Fracc. México · Morelia</span>
       </a>
       <nav class="nav" aria-label="Navegación principal">
+        <a href="#recorrido-360">Recorrido 360°</a>
+        <a href="#modelo-3d">Maqueta 3D</a>
         <a href="#galeria">Renders</a>
-        <a href="#modelo-3d">Recorrido 3D</a>
         <a href="#poligono">Polígono</a>
-        <a href="#plano-pdf">Plano PDF</a>
-        <a href="#especificaciones">Ficha Técnica</a>
+        <a href="#plano-pdf">Planos</a>
       </nav>
       <div class="topbar-actions">
         <a class="btn btn-outline btn-sm" href="assets/levantamiento-topografico-lote8.pdf" download>PDF</a>
@@ -50,14 +50,14 @@
         </p>
 
         <div class="hero-cta">
-          <a class="btn btn-primary" href="#modelo-3d">
-            Iniciar recorrido 3D
+          <a class="btn btn-primary" href="#recorrido-360">
+            Entrar al Recorrido 360° (Blender Cycles)
           </a>
-          <a class="btn btn-outline" href="assets/L8_MEXICO_SKP_3.skp" download>
-            Descargar .SKP (654 KB)
+          <a class="btn btn-outline" href="#modelo-3d">
+            Explorar Maqueta 3D
           </a>
-          <a class="btn btn-outline" href="assets/levantamiento-topografico-lote8.pdf" target="_blank" rel="noopener">
-            Plano topográfico (PDF)
+          <a class="btn btn-outline" href="assets/plano-arquitectonico-A1.pdf" target="_blank" rel="noopener">
+            Plano Arquitectónico A-1
           </a>
         </div>
 
@@ -93,6 +93,44 @@
             <span class="kpi-label">Fecha de levantamiento</span>
             <strong class="kpi-value">16 Jun 2025</strong>
             <span class="kpi-meta">Estación total electrónica</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="recorrido-360" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Renderizado Fotorealista · Blender 5 Cycles</p>
+            <h2>Recorrido Virtual 360° de la Casa</h2>
+          </div>
+          <div class="header-actions">
+            <a class="btn btn-outline btn-sm" href="blender/casa_l8_mexico.blend" download>
+              Descargar proyecto .BLEND
+            </a>
+          </div>
+        </div>
+
+        <div class="card tour360-card" id="tour360-card">
+          <div class="svg-header viewer-toolbar">
+            <div class="viewer-controls" id="tour360-stops" role="group" aria-label="Espacios del recorrido 360°"></div>
+            <div class="viewer-controls">
+              <button type="button" class="chip-btn is-active" id="tour360-autopan">Giro suave</button>
+              <button type="button" class="chip-btn" id="tour360-fullscreen" title="Pantalla completa">⛶</button>
+            </div>
+          </div>
+
+          <div class="tour360-stage" id="tour360-canvas-wrap">
+            <div class="tour360-hotspots" id="tour360-hotspots"></div>
+          </div>
+
+          <div class="tour-bar">
+            <div class="tour-info">
+              <strong id="tour360-title">1. Fachada y Voladizo</strong>
+              <span id="tour360-desc">Vista 360° exterior renderizada en Blender 5 Cycles.</span>
+            </div>
+            <span id="tour360-status" class="mono-tag">Blender 5 Cycles · 360°</span>
           </div>
         </div>
       </div>
@@ -466,6 +504,7 @@
   </div>
 
   <script src="app.js"></script>
+  <script type="module" src="tour360.js"></script>
   <script type="module" src="viewer3d.js"></script>
 </body>
 </html>
