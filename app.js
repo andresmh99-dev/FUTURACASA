@@ -39,9 +39,9 @@ const SIDES = [
 
 // Niveles interiores aproximados dentro del polígono (en coordenadas relativas 0..1)
 const LEVELS = [
-  { label: "NIVEL 103.30", u: 0.44, v: 0.25 },
-  { label: "NIVEL 103.14", u: 0.58, v: 0.58 },
-  { label: "NIVEL 102.87", u: 0.27, v: 0.74 },
+  { label: "NIVEL 103.30", u: 0.44, v: 0.24 },
+  { label: "NIVEL 103.14", u: 0.66, v: 0.67 },
+  { label: "NIVEL 102.87", u: 0.24, v: 0.76 },
 ];
 
 const SVG_NS = "http://www.w3.org/2000/svg";

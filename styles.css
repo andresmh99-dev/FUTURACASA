@@ -267,6 +267,7 @@ code, .mono-tag, td.num {
 /* Sections */
 .section {
   padding: 4rem 0;
+  scroll-margin-top: 76px;
 }
 
 .section-alt {
