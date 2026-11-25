@@ -180,15 +180,15 @@
       <div class="container">
         <div class="section-header">
           <div>
-            <p class="eyebrow">Visor WebGL + Recorrido Virtual</p>
-            <h2>Modelo 3D y Recorrido de la Casa</h2>
+            <p class="eyebrow">Modelo 3D Paramétrico Abierto · Plano A-1</p>
+            <h2>Modelo 3D Abierto y Recorrido de la Casa</h2>
           </div>
           <div class="header-actions">
-            <a class="btn btn-outline btn-sm" href="assets/L8_MEXICO_SKP_3.glb" download>
-              Descargar .GLB (288 KB)
-            </a>
-            <a class="btn btn-primary btn-sm" href="assets/L8_MEXICO_SKP_3.skp" download>
-              Descargar .SKP (654 KB)
+            <button type="button" class="btn btn-primary btn-sm" id="export-open-glb">
+              Exportar modelo abierto (.GLB)
+            </button>
+            <a class="btn btn-outline btn-sm" href="assets/L8_MEXICO_SKP_3.skp" download>
+              Archivo original (.SKP)
             </a>
           </div>
         </div>
@@ -200,12 +200,14 @@
                 <button type="button" class="chip-btn is-active" id="mode-orbit">Órbita</button>
                 <button type="button" class="chip-btn" id="mode-walk">Caminar dentro</button>
                 <button type="button" class="chip-btn" id="tour-play">▶ Iniciar recorrido</button>
-                <button type="button" class="chip-btn is-active" id="toggle-render-style" title="Alternar entre acabados tipo render y maqueta SketchUp original">Acabados Render</button>
               </div>
-              <div class="viewer-controls">
+              <div class="viewer-controls" role="group" aria-label="Niveles y corte">
+                <button type="button" class="chip-btn is-active" data-layer="azotea">Azotea</button>
+                <button type="button" class="chip-btn is-active" data-layer="primeraPlanta">1ª Planta</button>
+                <button type="button" class="chip-btn is-active" data-layer="sotano">Sótano</button>
                 <label class="clip-control" title="Cortar horizontalmente para ver el interior">
                   <span id="clip-value">Completo</span>
-                  <input type="range" id="clip-slider" min="-1.0" max="6.0" step="0.1" value="6.0" />
+                  <input type="range" id="clip-slider" min="0.5" max="8.5" step="0.1" value="8.5" />
                 </label>
                 <button type="button" class="chip-btn" id="viewer-fullscreen" title="Pantalla completa">⛶</button>
               </div>
@@ -214,9 +216,9 @@
             <div class="viewer-stage" id="viewer-canvas-wrap">
               <div class="walk-hud" id="walk-hud" hidden>
                 <div class="walk-floors">
-                  <button type="button" class="chip-btn" data-floor-y="-1.65">Planta Baja</button>
-                  <button type="button" class="chip-btn" data-floor-y="1.45">1er Nivel</button>
-                  <button type="button" class="chip-btn" data-floor-y="4.6">Azotea</button>
+                  <button type="button" class="chip-btn" data-floor-y="1.65">Sótano / Jardín</button>
+                  <button type="button" class="chip-btn" data-floor-y="4.95">1ª Planta</button>
+                  <button type="button" class="chip-btn" data-floor-y="8.2">Azotea</button>
                 </div>
                 <div class="walk-pad" aria-label="Controles táctiles de movimiento">
                   <button type="button" data-move="forward" title="Avanzar (W)">↑</button>
@@ -259,40 +261,40 @@
             </div>
 
             <div class="svg-footer">
-              <span id="viewer-status">Cargando modelo 3D…</span>
-              <span class="mono-tag">Three.js · 6 paradas guiadas</span>
+              <span id="viewer-status">Modelo paramétrico abierto (Plano A-1) · 7 paradas guiadas</span>
+              <span class="mono-tag">Three.js · Código abierto (sin .SKP)</span>
             </div>
           </div>
 
           <div class="card info-card">
-            <h3>Cómo explorar el recorrido</h3>
+            <h3>Modelo abierto desde Plano A-1</h3>
             <dl class="meta-list">
               <div>
-                <dt>Recorrido guiado</dt>
-                <dd>6 paradas automáticas (fachada → interior → aérea)</dd>
+                <dt>Arquitectura</dt>
+                <dd>Arq. Salvador Emmanuel Valencia Contreras (Lámina A-1)</dd>
               </div>
               <div>
-                <dt>Caminar dentro</dt>
-                <dd>Teclas <code>WASD</code> / Flechas + arrastrar para mirar</dd>
+                <dt>Niveles modelados</dt>
+                <dd>Sótano (Recámaras + Jardín), 1ª Planta y Azotea</dd>
               </div>
               <div>
-                <dt>Corte de planta</dt>
-                <dd>Desliza el control superior para seccionar techos</dd>
+                <dt>Formato abierto</dt>
+                <dd>Paramétrico en JS + exportación directa a <code>.GLB</code></dd>
               </div>
               <div>
-                <dt>Archivo original</dt>
-                <dd><code>L8_MEXICO_SKP_3.skp</code> (SketchUp 2025)</dd>
+                <dt>Recorrido</dt>
+                <dd>7 paradas guiadas + <code>WASD</code> + ocultar niveles</dd>
               </div>
             </dl>
             <div class="callout">
-              <strong>Niveles de la casa</strong>
+              <strong>100% libre de formatos propietarios</strong>
               <p>
-                En el modo <strong>Caminar dentro</strong> puedes saltar directamente entre <em>Planta Baja</em>, <em>1er Nivel</em> y <em>Azotea</em>, o usar las teclas <code>Q</code> y <code>E</code> para subir y bajar libremente.
+                Toda la casa está modelada en código abierto (<code>casa-l8-model.js</code>) a partir del plano <strong>A-1</strong> y los 5 renders. Puedes apagar <em>Azotea</em> o <em>1ª Planta</em> para inspeccionar cada nivel o exportar el <code>.glb</code> para abrirlo en Blender o FreeCAD.
               </p>
             </div>
             <div class="card-actions">
-              <a class="btn btn-primary" href="assets/L8_MEXICO_SKP_3.skp" download>Descargar .SKP</a>
-              <a class="btn btn-outline" href="assets/L8_MEXICO_SKP_3.glb" download>Descargar .GLB</a>
+              <a class="btn btn-primary" href="assets/plano-arquitectonico-A1.pdf" target="_blank" rel="noopener">Ver Plano A-1 (PDF)</a>
+              <a class="btn btn-outline" href="assets/levantamiento-topografico-lote8.pdf" target="_blank" rel="noopener">Topográfico (PDF)</a>
             </div>
           </div>
         </div>

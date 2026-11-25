@@ -30,13 +30,15 @@ Sitio web estático y repositorio de archivos técnicos para el **Levantamiento 
 .
 ├── index.html                                  # Sitio web interactivo (listo para GitHub Pages)
 ├── styles.css                                  # Estilos arquitectónicos y responsive
-├── app.js                                      # Poligonal SVG a escala real y tabla interactiva
-├── viewer3d.js                                 # Visor 3D Three.js, recorrido guiado y modo caminar
+├── app.js                                      # Poligonal SVG a escala real, tabla y lightbox
+├── casa-l8-model.js                            # Modelo 3D paramétrico abierto (desde Plano A-1)
+├── viewer3d.js                                 # Visor Three.js, recorrido 7 paradas y exportador .GLB
 ├── .nojekyll                                   # Desactiva Jekyll en GitHub Pages
 └── assets/
+    ├── plano-arquitectonico-A1.pdf             # Plano arquitectónico A-1 (Plantas, Sección y Fachadas)
     ├── levantamiento-topografico-lote8.pdf     # Plano topográfico oficial (Hoja 1 de 2)
-    ├── L8_MEXICO_SKP_3.skp                     # Modelo 3D original en SketchUp 2025
-    ├── L8_MEXICO_SKP_3.glb                     # Modelo 3D optimizado para visor web (Three.js)
+    ├── L8_MEXICO_SKP_3.skp                     # Archivo original SketchUp 2025 (referencia)
+    ├── L8_MEXICO_SKP_3.glb                     # Conversión GLB previa (referencia)
     ├── modelo-skp-preview.png                  # Vista previa extraída del archivo .skp
     └── galeria/                                # 5 renders arquitectónicos (fachadas, patio e interior)
 ```
