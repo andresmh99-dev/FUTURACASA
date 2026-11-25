@@ -395,3 +395,68 @@ function renderSVG() {
 
 buildTable();
 renderSVG();
+
+// Lightbox de la galería de renders arquitectónicos
+const RENDERS = [
+  {
+    src: "assets/galeria/PHOTO-2025-12-28-22-39-50.jpg",
+    caption: "Perspectiva Esquina y Voladizo — Volumen superior blanco con ventanal de piso a techo y patio arbolado.",
+  },
+  {
+    src: "assets/galeria/PHOTO-2025-12-28-22-40-36.jpg",
+    caption: "Fachada Principal — Implantación sobre la curva de la calle con franja horizontal iluminada.",
+  },
+  {
+    src: "assets/galeria/PHOTO-2025-12-28-22-40-48.jpg",
+    caption: "Sala, Comedor y Cocina (1er Nivel) — Planta abierta con carpintería clara, barra de mármol y vista panorámica.",
+  },
+  {
+    src: "assets/galeria/PHOTO-2025-12-28-22-40-59.jpg",
+    caption: "Patio Jardín y Recámaras (Planta Baja) — Jardín interior con andadores de concreto, rocas naturales y terraza de estar.",
+  },
+  {
+    src: "assets/galeria/PHOTO-2025-12-28-22-41-14.jpg",
+    caption: "Fachada de Acceso con Celosía — Volumen monolítico blanco siguiendo la pendiente con celosía de madera vertical.",
+  },
+];
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const lightboxCaption = document.getElementById("lightbox-caption");
+let currentRenderIdx = 0;
+
+function openLightbox(idx) {
+  if (!lightbox || !lightboxImg || !lightboxCaption) return;
+  currentRenderIdx = (idx + RENDERS.length) % RENDERS.length;
+  lightboxImg.src = RENDERS[currentRenderIdx].src;
+  lightboxImg.alt = RENDERS[currentRenderIdx].caption;
+  lightboxCaption.textContent = `${currentRenderIdx + 1} / ${RENDERS.length} — ${RENDERS[currentRenderIdx].caption}`;
+  lightbox.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  if (!lightbox) return;
+  lightbox.hidden = true;
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("click", (e) => {
+  const trigger = e.target.closest("[data-lightbox]");
+  if (trigger) {
+    openLightbox(Number(trigger.dataset.lightbox) || 0);
+  }
+});
+
+document.getElementById("lightbox-close")?.addEventListener("click", closeLightbox);
+document.getElementById("lightbox-prev")?.addEventListener("click", () => openLightbox(currentRenderIdx - 1));
+document.getElementById("lightbox-next")?.addEventListener("click", () => openLightbox(currentRenderIdx + 1));
+lightbox?.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+window.addEventListener("keydown", (e) => {
+  if (!lightbox || lightbox.hidden) return;
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowLeft") openLightbox(currentRenderIdx - 1);
+  if (e.key === "ArrowRight") openLightbox(currentRenderIdx + 1);
+});

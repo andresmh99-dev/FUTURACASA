@@ -36,8 +36,9 @@ Sitio web estático y repositorio de archivos técnicos para el **Levantamiento 
 └── assets/
     ├── levantamiento-topografico-lote8.pdf     # Plano topográfico oficial (Hoja 1 de 2)
     ├── L8_MEXICO_SKP_3.skp                     # Modelo 3D original en SketchUp 2025
-    ├── L8_MEXICO_SKP_3.glb                     # Modelo 3D optimizado para visor web (<model-viewer>)
-    └── modelo-skp-preview.png                  # Vista previa extraída del archivo .skp
+    ├── L8_MEXICO_SKP_3.glb                     # Modelo 3D optimizado para visor web (Three.js)
+    ├── modelo-skp-preview.png                  # Vista previa extraída del archivo .skp
+    └── galeria/                                # 5 renders arquitectónicos (fachadas, patio e interior)
 ```
 
 ## Cómo publicar en GitHub Pages

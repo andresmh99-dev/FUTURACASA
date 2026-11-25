@@ -26,8 +26,9 @@
         <span class="brand-text">Fracc. México · Morelia</span>
       </a>
       <nav class="nav" aria-label="Navegación principal">
+        <a href="#galeria">Renders</a>
+        <a href="#modelo-3d">Recorrido 3D</a>
         <a href="#poligono">Polígono</a>
-        <a href="#modelo-3d">Modelo 3D</a>
         <a href="#plano-pdf">Plano PDF</a>
         <a href="#especificaciones">Ficha Técnica</a>
       </nav>
@@ -49,13 +50,28 @@
         </p>
 
         <div class="hero-cta">
-          <a class="btn btn-primary" href="assets/L8_MEXICO_SKP_3.skp" download>
-            Descargar modelo 3D (.skp · 654 KB)
+          <a class="btn btn-primary" href="#modelo-3d">
+            Iniciar recorrido 3D
+          </a>
+          <a class="btn btn-outline" href="assets/L8_MEXICO_SKP_3.skp" download>
+            Descargar .SKP (654 KB)
           </a>
           <a class="btn btn-outline" href="assets/levantamiento-topografico-lote8.pdf" target="_blank" rel="noopener">
-            Abrir plano topográfico (PDF · 406 KB)
+            Plano topográfico (PDF)
           </a>
         </div>
+
+        <figure class="hero-visual card">
+          <img
+            src="assets/galeria/PHOTO-2025-12-28-22-39-50.jpg"
+            alt="Render exterior arquitectónico de la casa en Lote 8, Manzana 147, Fraccionamiento México"
+            data-lightbox="0"
+          />
+          <figcaption>
+            <span>Perspectiva exterior · Volumen superior en voladizo sobre patio privado</span>
+            <a href="#galeria">Ver los 5 renders →</a>
+          </figcaption>
+        </figure>
 
         <div class="kpi-grid">
           <div class="kpi-card">
@@ -221,9 +237,18 @@
             </div>
 
             <div class="tour-bar">
-              <div class="tour-info">
-                <strong id="tour-station-title">1. Fachada Principal</strong>
-                <span id="tour-station-desc">Aproximación exterior desde el frente del predio.</span>
+              <div class="tour-info-wrap">
+                <img
+                  id="tour-ref-thumb"
+                  class="tour-ref-thumb"
+                  src="assets/galeria/PHOTO-2025-12-28-22-40-36.jpg"
+                  alt="Render de referencia de la parada actual"
+                  title="Clic para ampliar render de referencia"
+                />
+                <div class="tour-info">
+                  <strong id="tour-station-title">1. Fachada Principal y Vialidad</strong>
+                  <span id="tour-station-desc">Volumen superior suspendido sobre barda perimetral y franja iluminada.</span>
+                </div>
               </div>
               <div class="tour-nav">
                 <button type="button" class="chip-btn" id="tour-prev" aria-label="Parada anterior">←</button>
@@ -273,7 +298,61 @@
       </div>
     </section>
 
-    <section id="plano-pdf" class="section">
+    <section id="galeria" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Visualización arquitectónica</p>
+            <h2>Galería de Renders del Proyecto</h2>
+          </div>
+          <span class="mono-tag">5 vistas · Haz clic para ampliar</span>
+        </div>
+
+        <div class="gallery-grid">
+          <figure class="card gallery-item gallery-featured" data-lightbox="0">
+            <img src="assets/galeria/PHOTO-2025-12-28-22-39-50.jpg" alt="Perspectiva exterior esquina y voladizo" loading="lazy" />
+            <figcaption>
+              <strong>Perspectiva Esquina y Voladizo</strong>
+              <span>Volumen superior blanco con ventanal de piso a techo y patio arbolado.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="card gallery-item" data-lightbox="1">
+            <img src="assets/galeria/PHOTO-2025-12-28-22-40-36.jpg" alt="Fachada principal y acceso sobre vialidad" loading="lazy" />
+            <figcaption>
+              <strong>Fachada Principal</strong>
+              <span>Implantación sobre la curva de la calle con franja horizontal iluminada.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="card gallery-item" data-lightbox="2">
+            <img src="assets/galeria/PHOTO-2025-12-28-22-40-48.jpg" alt="Interior sala, comedor y cocina en primer nivel" loading="lazy" />
+            <figcaption>
+              <strong>Sala, Comedor y Cocina (1er Nivel)</strong>
+              <span>Planta abierta con carpintería clara, barra de mármol y vista panorámica.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="card gallery-item" data-lightbox="3">
+            <img src="assets/galeria/PHOTO-2025-12-28-22-40-59.jpg" alt="Patio jardín privado y recámaras en planta baja" loading="lazy" />
+            <figcaption>
+              <strong>Patio Jardín y Recámaras (Planta Baja)</strong>
+              <span>Jardín interior con andadores de concreto, rocas naturales y terraza de estar.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="card gallery-item" data-lightbox="4">
+            <img src="assets/galeria/PHOTO-2025-12-28-22-41-14.jpg" alt="Fachada con celosía vertical de madera" loading="lazy" />
+            <figcaption>
+              <strong>Fachada de Acceso con Celosía</strong>
+              <span>Volumen monolítico blanco siguiendo la pendiente con celosía de madera vertical.</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="plano-pdf" class="section section-alt">
       <div class="container">
         <div class="section-header">
           <div>
@@ -304,7 +383,7 @@
       </div>
     </section>
 
-    <section id="especificaciones" class="section section-alt">
+    <section id="especificaciones" class="section">
       <div class="container">
         <div class="section-header">
           <div>
@@ -372,6 +451,16 @@
       </p>
     </div>
   </footer>
+
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Visor de render arquitectónico">
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Cerrar">✕</button>
+    <button type="button" class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Anterior">‹</button>
+    <figure class="lightbox-figure">
+      <img id="lightbox-img" src="" alt="" />
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+    <button type="button" class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Siguiente">›</button>
+  </div>
 
   <script src="app.js"></script>
   <script type="module" src="viewer3d.js"></script>

@@ -12,6 +12,7 @@ function initViewer() {
   const fallbackEl = document.getElementById("viewer-fallback");
   const stationTitleEl = document.getElementById("tour-station-title");
   const stationDescEl = document.getElementById("tour-station-desc");
+  const refThumbEl = document.getElementById("tour-ref-thumb");
   const stationDotsEl = document.getElementById("tour-dots");
   const playBtn = document.getElementById("tour-play");
   const prevBtn = document.getElementById("tour-prev");
@@ -30,51 +31,63 @@ function initViewer() {
     return;
   }
 
-  // Paradas calibradas a las coordenadas reales de L8_MEXICO_SKP_3.glb
+  // Paradas calibradas a las coordenadas reales de L8_MEXICO_SKP_3.glb y vinculadas a los renders
   // Casa: X [3.2..24.7], Y [-3.4..3.3], Z [-3.0..22.0]
   const TOUR_STATIONS = [
     {
-      name: "1. Fachada Principal",
-      desc: "Aproximación exterior desde el frente del predio hacia el volumen superior en voladizo.",
-      pos: new THREE.Vector3(14.0, 2.2, 30.5),
-      target: new THREE.Vector3(13.5, 0.4, 10.5),
+      name: "1. Fachada Principal y Vialidad",
+      desc: "Volumen superior suspendido sobre barda perimetral y franja horizontal iluminada.",
+      pos: new THREE.Vector3(14.5, 2.0, 31.5),
+      target: new THREE.Vector3(13.5, 0.3, 10.5),
+      render: "assets/galeria/PHOTO-2025-12-28-22-40-36.jpg",
+      lightboxIndex: 1,
     },
     {
-      name: "2. Acceso y Cochera",
-      desc: "Llegada a nivel de acceso y área de cochera sobre la pendiente del terreno.",
-      pos: new THREE.Vector3(10.5, -1.4, 21.5),
-      target: new THREE.Vector3(13.8, -1.2, 11.0),
+      name: "2. Perspectiva Esquina y Voladizo",
+      desc: "Ventanal de piso a techo en primer nivel y relación con el patio arbolado.",
+      pos: new THREE.Vector3(24.5, 2.4, 24.5),
+      target: new THREE.Vector3(12.8, 0.4, 10.5),
+      render: "assets/galeria/PHOTO-2025-12-28-22-39-50.jpg",
+      lightboxIndex: 0,
     },
     {
-      name: "3. Planta Baja",
-      desc: "Recorrido interior en planta baja (nivel base del proyecto arquitectónico).",
-      pos: new THREE.Vector3(13.5, -1.65, 14.5),
-      target: new THREE.Vector3(12.2, -1.4, 5.5),
+      name: "3. Acceso y Fachada con Celosía",
+      desc: "Fachada lateral sobre la pendiente con celosía vertical de madera.",
+      pos: new THREE.Vector3(-4.5, 1.4, 11.5),
+      target: new THREE.Vector3(12.5, 0.0, 10.5),
+      render: "assets/galeria/PHOTO-2025-12-28-22-41-14.jpg",
+      lightboxIndex: 4,
     },
     {
-      name: "4. Primer Nivel",
-      desc: "Vista interior del primer nivel (espacio principal con vano panorámico).",
-      pos: new THREE.Vector3(12.8, 1.45, 13.6),
+      name: "4. Patio Jardín y Recámaras (Planta Baja)",
+      desc: "Jardín interior privado con terraza de estar y ventanales hacia las recámaras.",
+      pos: new THREE.Vector3(16.8, -1.55, 16.2),
+      target: new THREE.Vector3(11.2, -1.4, 7.8),
+      render: "assets/galeria/PHOTO-2025-12-28-22-40-59.jpg",
+      lightboxIndex: 3,
+    },
+    {
+      name: "5. Sala, Comedor y Cocina (1er Nivel)",
+      desc: "Espacio social abierto en primer nivel con vista panorámica hacia las lomas.",
+      pos: new THREE.Vector3(12.6, 1.45, 13.5),
       target: new THREE.Vector3(11.8, 1.35, 6.8),
+      render: "assets/galeria/PHOTO-2025-12-28-22-40-48.jpg",
+      lightboxIndex: 2,
     },
     {
-      name: "5. Perspectiva Lateral",
-      desc: "Relación del volumen habitacional con los muros laterales y la topografía.",
-      pos: new THREE.Vector3(0.8, 2.4, 16.5),
-      target: new THREE.Vector3(13.5, 0.5, 10.0),
-    },
-    {
-      name: "6. Vista Aérea",
-      desc: "Implantación completa de la casa sobre el Lote 8 y el terreno inclinado.",
+      name: "6. Vista Aérea y Entorno",
+      desc: "Implantación completa de la casa sobre el Lote 8 y la topografía del Fracc. México.",
       pos: new THREE.Vector3(29.0, 15.5, 27.0),
       target: new THREE.Vector3(13.5, 0.0, 10.0),
+      render: "assets/galeria/PHOTO-2025-12-28-22-39-50.jpg",
+      lightboxIndex: 0,
     },
   ];
 
-  // Escena y renderer
+  // Escena y renderer (cielo arquitectónico diurno inspirado en los renders)
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xebe8e0);
-  scene.fog = new THREE.Fog(0xebe8e0, 55, 130);
+  scene.background = new THREE.Color(0xdfe8f1);
+  scene.fog = new THREE.Fog(0xdfe8f1, 60, 145);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -126,6 +139,15 @@ function initViewer() {
   const fillLight = new THREE.DirectionalLight(0xdbe8f8, 0.55);
   fillLight.position.set(-22, 18, -18);
   scene.add(fillLight);
+
+  // Luces cálidas interiores (inspiradas en los renders de sala/cocina y recámaras/patio)
+  const livingGlow = new THREE.PointLight(0xffdfb0, 14, 18, 1.6);
+  livingGlow.position.set(12.5, 2.2, 10.2);
+  scene.add(livingGlow);
+
+  const groundGlow = new THREE.PointLight(0xffd79e, 12, 16, 1.6);
+  groundGlow.position.set(13.5, -0.8, 11.5);
+  scene.add(groundGlow);
 
   // Plano de corte horizontal (maqueta seccionada)
   const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 6.0);
@@ -207,6 +229,10 @@ function initViewer() {
     const st = TOUR_STATIONS[currentStation];
     if (stationTitleEl) stationTitleEl.textContent = st.name;
     if (stationDescEl) stationDescEl.textContent = st.desc;
+    if (refThumbEl && st.render) {
+      refThumbEl.src = st.render;
+      refThumbEl.dataset.lightbox = String(st.lightboxIndex ?? 0);
+    }
     if (stationDotsEl) {
       stationDotsEl.querySelectorAll("button").forEach((dot, idx) => {
         dot.classList.toggle("is-active", idx === currentStation);
