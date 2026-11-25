@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lote 8, Manzana 147 — Levantamiento Topográfico y Modelo 3D</title>
+  <meta name="description" content="Levantamiento topográfico arquitectónico y modelo 3D SketchUp del Lote 8, Manzana 147, Fraccionamiento México, Morelia, Michoacán. Área total 281.30 m²." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="#inicio" class="brand">
+        <span class="brand-badge">L8 · M147</span>
+        <span class="brand-text">Fracc. México · Morelia</span>
+      </a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#poligono">Polígono</a>
+        <a href="#modelo-3d">Modelo 3D</a>
+        <a href="#plano-pdf">Plano PDF</a>
+        <a href="#especificaciones">Ficha Técnica</a>
+      </nav>
+      <div class="topbar-actions">
+        <a class="btn btn-outline btn-sm" href="assets/levantamiento-topografico-lote8.pdf" download>PDF</a>
+        <a class="btn btn-primary btn-sm" href="assets/L8_MEXICO_SKP_3.skp" download>Descargar .SKP</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="container">
+        <p class="eyebrow">Levantamiento Topográfico Arquitectónico · Hoja 1 de 2</p>
+        <h1>Lote 8, Manzana 147<br /><span class="subtitle">Fraccionamiento México, Morelia, Mich.</span></h1>
+        <p class="hero-lead">
+          Expediente digital del predio ubicado en Colonia Puerto de Buenavista, Morelia, Michoacán.
+          Incluye poligonal interactiva calculada desde coordenadas UTM, cuadro de construcción, plano topográfico oficial en PDF y modelo 3D en SketchUp.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="assets/L8_MEXICO_SKP_3.skp" download>
+            Descargar modelo 3D (.skp · 654 KB)
+          </a>
+          <a class="btn btn-outline" href="assets/levantamiento-topografico-lote8.pdf" target="_blank" rel="noopener">
+            Abrir plano topográfico (PDF · 406 KB)
+          </a>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Área total</span>
+            <strong class="kpi-value">281.30 m²</strong>
+            <span class="kpi-meta">Poligonal cerrada de 4 vértices</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Perímetro</span>
+            <strong class="kpi-value">68.23 m</strong>
+            <span class="kpi-meta">13.06 + 20.10 + 15.07 + 20.00 m</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Escala y curvas</span>
+            <strong class="kpi-value">1:100</strong>
+            <span class="kpi-meta">Cotas en metros · Curvas c/ 0.50 m</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Fecha de levantamiento</span>
+            <strong class="kpi-value">16 Jun 2025</strong>
+            <span class="kpi-meta">Estación total electrónica</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="poligono" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Geometría a escala real</p>
+            <h2>Poligonal y Cuadro de Construcción</h2>
+          </div>
+          <div class="layer-toggles" role="group" aria-label="Capas del plano">
+            <label class="toggle">
+              <input type="checkbox" id="toggle-dimensions" checked />
+              <span>Cotas y rumbos</span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="toggle-levels" checked />
+              <span>Niveles</span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="toggle-neighbors" checked />
+              <span>Colindancias</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="polygon-layout">
+          <div class="card svg-card">
+            <div class="svg-header">
+              <span class="mono-tag">UTM · WGS84 (Zona 14N)</span>
+              <span id="selection-readout" class="selection-readout">Pasa el cursor sobre un vértice o lado</span>
+            </div>
+            <div class="svg-stage">
+              <svg id="lot-svg" viewBox="0 0 640 520" role="img" aria-label="Poligonal topográfica del Lote 8 a escala real"></svg>
+            </div>
+            <div class="svg-footer">
+              <span>Niveles registrados: <strong>103.30</strong> (norte), <strong>103.14</strong> (centro), <strong>102.87</strong> (suroeste)</span>
+              <span class="mono-tag">Frente: Calle Zacamixtle</span>
+            </div>
+          </div>
+
+          <div class="card table-card">
+            <div class="card-head">
+              <h3>Cuadro de Construcción</h3>
+              <span class="mono-tag">Área = 281.30 m²</span>
+            </div>
+            <div class="table-wrap">
+              <table id="construction-table">
+                <thead>
+                  <tr>
+                    <th>Lado</th>
+                    <th>Rumbo</th>
+                    <th class="num">Dist. (m)</th>
+                    <th>V</th>
+                    <th class="num">UTM X</th>
+                    <th class="num">UTM Y</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div class="colindancias">
+              <h4>Colindancias y cotas destacadas</h4>
+              <ul>
+                <li><strong>Lado 1–2 (13.06 m):</strong> Colinda con <em>Lote 9</em>.</li>
+                <li><strong>Lado 2–3 (20.10 m):</strong> Colinda con <em>Calle</em> (subtramos 7.38 m + 12.72 m).</li>
+                <li><strong>Lado 3–4 (15.07 m):</strong> Frente hacia <em>Calle Zacamixtle</em>.</li>
+                <li><strong>Lado 4–1 (20.00 m):</strong> Colinda con <em>Lote 7</em> (subtramos 12.79 m + 7.21 m).</li>
+              </ul>
+              <div class="heights-pills">
+                <span class="pill">Trabe: 105.32 m</span>
+                <span class="pill">Muro E: 107.59 m</span>
+                <span class="pill">Muro SE: 105.11 m</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modelo-3d" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Archivo de diseño tridimensional</p>
+            <h2>Modelo 3D en SketchUp</h2>
+          </div>
+          <a class="btn btn-primary btn-sm" href="assets/L8_MEXICO_SKP_3.skp" download>
+            Descargar L8_MEXICO_SKP_3.skp
+          </a>
+        </div>
+
+        <div class="model-grid">
+          <figure class="card preview-card">
+            <img
+              src="assets/modelo-skp-preview.png"
+              alt="Vista previa del modelo 3D SketchUp L8_MEXICO_SKP_3.skp"
+              loading="lazy"
+            />
+            <figcaption>Vista previa embebida extraída directamente de <code>L8_MEXICO_SKP_3.skp</code>.</figcaption>
+          </figure>
+
+          <div class="card info-card">
+            <h3>Detalles del archivo 3D</h3>
+            <dl class="meta-list">
+              <div>
+                <dt>Archivo</dt>
+                <dd><code>L8_MEXICO_SKP_3.skp</code></dd>
+              </div>
+              <div>
+                <dt>Formato</dt>
+                <dd>SketchUp Model (<code>.skp</code>)</dd>
+              </div>
+              <div>
+                <dt>Tamaño</dt>
+                <dd>669,674 bytes (~654 KB)</dd>
+              </div>
+              <div>
+                <dt>Predio asociado</dt>
+                <dd>Lote 8, Manzana 147 · Fracc. México</dd>
+              </div>
+            </dl>
+            <div class="callout">
+              <strong>¿Cómo abrir el modelo 3D?</strong>
+              <p>
+                Los navegadores web no renderizan archivos <code>.skp</code> de forma nativa.
+                Descarga el archivo y ábrelo en <strong>SketchUp Desktop</strong>, <strong>SketchUp Free (Web)</strong>
+                o el visor gratuito <strong>Trimble SketchUp Viewer</strong>.
+              </p>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="assets/L8_MEXICO_SKP_3.skp" download>Descargar .SKP</a>
+              <a class="btn btn-outline" href="https://app.sketchup.com/" target="_blank" rel="noopener">Abrir SketchUp Web</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="plano-pdf" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Documentación oficial</p>
+            <h2>Plano Topográfico (PDF)</h2>
+          </div>
+          <div class="header-actions">
+            <a class="btn btn-outline btn-sm" href="assets/levantamiento-topografico-lote8.pdf" target="_blank" rel="noopener">
+              Abrir en nueva pestaña
+            </a>
+            <a class="btn btn-primary btn-sm" href="assets/levantamiento-topografico-lote8.pdf" download>
+              Descargar PDF
+            </a>
+          </div>
+        </div>
+
+        <div class="card pdf-card">
+          <iframe
+            src="assets/levantamiento-topografico-lote8.pdf#view=FitH"
+            title="Levantamiento Topográfico Arquitectónico — Lote 8, Manzana 147"
+            class="pdf-frame"
+          ></iframe>
+          <div class="pdf-fallback">
+            ¿No se muestra el visor integrado en tu dispositivo?
+            <a href="assets/levantamiento-topografico-lote8.pdf" target="_blank" rel="noopener">Abre o descarga el PDF aquí</a>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="especificaciones" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Datos de referencia</p>
+            <h2>Especificaciones Técnicas</h2>
+          </div>
+        </div>
+
+        <div class="specs-grid">
+          <div class="card spec-card">
+            <h3>Propiedad y Ubicación</h3>
+            <dl class="meta-list">
+              <div>
+                <dt>Descripción</dt>
+                <dd>Lote 8, Manzana 147, Fraccionamiento México</dd>
+              </div>
+              <div>
+                <dt>Colonia / Ciudad</dt>
+                <dd>Colonia Puerto de Buenavista, Morelia, Michoacán</dd>
+              </div>
+              <div>
+                <dt>Referencia vial</dt>
+                <dd>Acceso por Av. Tres Marías / Calle Zacamixtle</dd>
+              </div>
+              <div>
+                <dt>Coordenadas aprox.</dt>
+                <dd>UTM 14N · X: 276,463.465 · Y: 2,178,461.832</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="card spec-card">
+            <h3>Levantamiento y Dibujo</h3>
+            <dl class="meta-list">
+              <div>
+                <dt>Instrumentación</dt>
+                <dd>Medición topográfica con estación total electrónica</dd>
+              </div>
+              <div>
+                <dt>Georreferencia</dt>
+                <dd>UTM aproximadas con navegador de mano (precisión 5 m)</dd>
+              </div>
+              <div>
+                <dt>Responsable</dt>
+                <dd>Topografía Profesional de Morelia · Arq. José Alberto Méndez Aguilar</dd>
+              </div>
+              <div>
+                <dt>Registro</dt>
+                <dd>Céd. Prof. 2177829 · D.R.O. 301 · Hoja 1 de 2 (16/06/2025)</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>Proyecto Lote 8, Manzana 147 · Fraccionamiento México, Morelia, Mich.</p>
+      <p class="footer-links">
+        <a href="assets/levantamiento-topografico-lote8.pdf" download>Plano PDF</a>
+        <span>·</span>
+        <a href="assets/L8_MEXICO_SKP_3.skp" download>Modelo .SKP</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
