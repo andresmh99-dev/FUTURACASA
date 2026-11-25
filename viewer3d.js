@@ -11,22 +11,41 @@ if (container) {
 
 function createSkyDome() {
   const canvas = document.createElement("canvas");
-  canvas.width = 32;
+  canvas.width = 512;
   canvas.height = 256;
   const ctx = canvas.getContext("2d");
   const grad = ctx.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0.0, "#6fa3d8");
-  grad.addColorStop(0.42, "#bad6ee");
-  grad.addColorStop(0.54, "#f4f2eb");
-  grad.addColorStop(0.62, "#879276");
-  grad.addColorStop(1.0, "#5c664a");
+  grad.addColorStop(0.0, "#6fa5db");
+  grad.addColorStop(0.36, "#bfd8ee");
+  grad.addColorStop(0.51, "#f9f7f2");
+  grad.addColorStop(0.58, "#939c82");
+  grad.addColorStop(1.0, "#5a6347");
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 32, 256);
+  ctx.fillRect(0, 0, 512, 256);
+
+  // Soft sunlit cirrus clouds matching Render 2 & Render 5
+  for (let i = 0; i < 24; i++) {
+    const cx = Math.random() * 512;
+    const cy = 28 + Math.random() * 74;
+    const rx = 28 + Math.random() * 75;
+    const ry = 6 + Math.random() * 14;
+    const cg = ctx.createRadialGradient(cx, cy, 2, cx, cy, rx);
+    cg.addColorStop(0, "rgba(255,255,255,0.42)");
+    cg.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = cg;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(1, ry / rx);
+    ctx.beginPath();
+    ctx.arc(0, 0, rx, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
 
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
   return new THREE.Mesh(
-    new THREE.SphereGeometry(180, 32, 24),
+    new THREE.SphereGeometry(185, 36, 24),
     new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false })
   );
 }
@@ -155,33 +174,38 @@ function initViewer() {
   hemiLight.position.set(0, 45, 0);
   scene.add(hemiLight);
 
-  const sunLight = new THREE.DirectionalLight(0xfff4e0, 2.15);
-  sunLight.position.set(32, 38, 22);
+  // Sol lateral bajo de tarde para arrojar sombras diagonales nítidas del voladizo y árboles (como en Renders 1 y 2)
+  const sunLight = new THREE.DirectionalLight(0xfff1d6, 2.35);
+  sunLight.position.set(-22, 24, 34);
   sunLight.castShadow = true;
   sunLight.shadow.mapSize.set(2048, 2048);
   sunLight.shadow.camera.near = 5;
   sunLight.shadow.camera.far = 120;
-  sunLight.shadow.camera.left = -32;
-  sunLight.shadow.camera.right = 32;
-  sunLight.shadow.camera.top = 32;
-  sunLight.shadow.camera.bottom = -32;
+  sunLight.shadow.camera.left = -30;
+  sunLight.shadow.camera.right = 30;
+  sunLight.shadow.camera.top = 30;
+  sunLight.shadow.camera.bottom = -30;
   sunLight.shadow.bias = -0.0004;
   scene.add(sunLight);
 
-  const fillLight = new THREE.DirectionalLight(0xcfe2f7, 0.55);
-  fillLight.position.set(-24, 22, -18);
+  const fillLight = new THREE.DirectionalLight(0xd2e4f8, 0.65);
+  fillLight.position.set(28, 18, -16);
   scene.add(fillLight);
 
   // Luces cálidas en Primera Planta (Cocina/Sala) y Sótano (Patio/Recámaras)
-  const livingLight = new THREE.PointLight(0xffdca6, 16, 18, 1.5);
-  livingLight.position.set(11.4, 5.7, 13.0);
+  const livingLight = new THREE.PointLight(0xffd796, 22, 18, 1.45);
+  livingLight.position.set(11.4, 5.75, 13.0);
   scene.add(livingLight);
 
-  const patioLight = new THREE.PointLight(0xffd292, 14, 16, 1.5);
+  const kitchenLight = new THREE.PointLight(0xffcf82, 16, 12, 1.5);
+  kitchenLight.position.set(10.5, 5.1, 9.5);
+  scene.add(kitchenLight);
+
+  const patioLight = new THREE.PointLight(0xffd08c, 16, 16, 1.5);
   patioLight.position.set(11.8, 2.2, 4.0);
   scene.add(patioLight);
 
-  const bedLight = new THREE.PointLight(0xffd699, 10, 14, 1.6);
+  const bedLight = new THREE.PointLight(0xffd490, 12, 14, 1.5);
   bedLight.position.set(5.2, 2.3, 11.5);
   scene.add(bedLight);
 
