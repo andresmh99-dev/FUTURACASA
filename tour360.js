@@ -1,8 +1,9 @@
 import * as THREE from "three";
 
 /**
- * Visor de Recorrido Virtual 360° Fotorealista (renderizado con Blender 5 Cycles)
- * Esfera equirectangular en Three.js con hotspots interactivos 3D y transiciones suaves.
+ * Visor de Recorrido Virtual 360° Fotorealista (8 paradas — Blender 5 Cycles)
+ * Cubre fachada exterior, entrada principal/cochera, pasillo/escaleras, sala/cocina,
+ * patio jardín, recámara principal y recámaras/sala TV de planta baja.
  */
 
 const wrap = document.getElementById("tour360-canvas-wrap");
@@ -24,64 +25,103 @@ function initTour360() {
     {
       id: "fachada",
       label: "1. Fachada y Voladizo",
-      desc: "Vista 360° exterior renderizada en Blender 5 Cycles desde la esquina del Lote 8.",
+      desc: "Perspectiva 360° exterior desde la esquina Sur-Este con volumen en voladizo, ventanal y árboles.",
       src: "assets/panoramas/01_fachada_esquina.jpg",
       initialYaw: 2.35,
       initialPitch: 0.04,
       hotspots: [
-        { target: "patio", label: "Entrar al Patio Jardín", yaw: 2.55, pitch: -0.04 },
-        { target: "sala", label: "Subir a Sala y Cocina", yaw: 2.22, pitch: 0.12 },
-        { target: "celosia", label: "Ir a Fachada Oeste (Celosía)", yaw: 1.65, pitch: -0.02 },
+        { target: "entrada", label: "Ir a Fachada de Entrada", yaw: 1.82, pitch: 0.02 },
+        { target: "sala", label: "Subir a Sala y Cocina", yaw: 2.25, pitch: 0.14 },
+        { target: "patio", label: "Entrar al Patio Jardín", yaw: 2.60, pitch: -0.04 },
       ],
     },
     {
-      id: "patio",
-      label: "2. Patio Jardín",
-      desc: "Jardín interior privado con árboles, rocas volcánicas, terraza de estar y ventanales.",
-      src: "assets/panoramas/02_patio_jardin.jpg",
-      initialYaw: -1.75,
+      id: "entrada",
+      label: "2. Entrada y Cochera",
+      desc: "Vestíbulo de acceso principal con puerta pivotante de madera, celosía vertical, pérgola y luz cálida.",
+      src: "assets/panoramas/02_fachada_entrada.jpg",
+      initialYaw: -1.55,
       initialPitch: 0.02,
       hotspots: [
-        { target: "recamara", label: "Entrar a Recámaras (Sótano)", yaw: 0.95, pitch: -0.04 },
-        { target: "sala", label: "Subir a Sala / Cocina (1ª Planta)", yaw: -0.5, pitch: 0.25 },
-        { target: "fachada", label: "Salir a Fachada Exterior", yaw: -2.6, pitch: 0.02 },
+        { target: "pasillo", label: "Entrar al Pasillo y Escaleras", yaw: -1.55, pitch: -0.02 },
+        { target: "celosia", label: "Salir a Vialidad Oeste", yaw: 1.55, pitch: -0.04 },
+        { target: "patio", label: "Ver Patio Jardín", yaw: -2.45, pitch: -0.08 },
+      ],
+    },
+    {
+      id: "pasillo",
+      label: "3. Pasillo y Escaleras (PA)",
+      desc: "Pasillo galería en planta alta con hueco real de escaleras de madera, barandal, ventanal vertical y puerta de servicio/studio.",
+      src: "assets/panoramas/03_pasillo_escaleras.jpg",
+      initialYaw: 0.45,
+      initialPitch: -0.08,
+      hotspots: [
+        { target: "sala", label: "Avanzar a Sala y Cocina", yaw: -1.35, pitch: -0.02 },
+        { target: "recamaras_tv", label: "Bajar escaleras a Planta Baja", yaw: 0.65, pitch: -0.26 },
+        { target: "entrada", label: "Salir a Entrada Principal", yaw: 1.85, pitch: -0.02 },
       ],
     },
     {
       id: "sala",
-      label: "3. Sala, Comedor y Cocina",
-      desc: "Planta abierta en 1er nivel con cocina de mármol, isla oscura, sala en L y vista panorámica.",
-      src: "assets/panoramas/03_sala_cocina.jpg",
+      label: "4. Sala, Comedor y Cocina",
+      desc: "Planta abierta en nivel social con cocina de mármol, isla con tarja, sala en L, comedor panorámico y acceso al pasillo.",
+      src: "assets/panoramas/04_sala_cocina.jpg",
       initialYaw: -2.05,
       initialPitch: -0.04,
       hotspots: [
-        { target: "patio", label: "Bajar al Patio Jardín", yaw: -2.65, pitch: -0.14 },
-        { target: "recamara", label: "Bajar a Recámaras", yaw: 2.45, pitch: -0.14 },
-        { target: "fachada", label: "Ver Exterior desde Calle", yaw: -1.25, pitch: -0.04 },
+        { target: "pasillo", label: "Ir al Pasillo y Escaleras", yaw: -2.78, pitch: -0.04 },
+        { target: "patio", label: "Bajar al Patio Jardín", yaw: -2.25, pitch: -0.14 },
+        { target: "fachada", label: "Ver Fachada Exterior", yaw: -1.15, pitch: -0.04 },
       ],
     },
     {
-      id: "recamara",
-      label: "4. Recámaras (Sótano)",
-      desc: "Interior de recámara con cabecera acanalada, clóset de madera, cuadros y vista al patio.",
-      src: "assets/panoramas/04_recamara.jpg",
-      initialYaw: -1.35,
-      initialPitch: -0.02,
+      id: "patio",
+      label: "5. Patio Jardín (PB)",
+      desc: "Jardín interior privado con árboles en flor, rocas volcánicas, lavanda, terraza pizarra, sillones rattan y las 3 recámaras al fondo.",
+      src: "assets/panoramas/05_patio_jardin.jpg",
+      initialYaw: -1.75,
+      initialPitch: 0.02,
       hotspots: [
-        { target: "patio", label: "Salir al Patio Jardín", yaw: -2.55, pitch: -0.04 },
-        { target: "sala", label: "Subir a Sala y Cocina", yaw: -0.75, pitch: 0.14 },
+        { target: "recamara_principal", label: "Entrar a Recámara Principal", yaw: 0.45, pitch: -0.04 },
+        { target: "recamaras_tv", label: "Ir a Recámaras 1, 2 y Sala TV", yaw: 1.35, pitch: -0.04 },
+        { target: "sala", label: "Subir a Sala y Cocina (PA)", yaw: 0.15, pitch: 0.28 },
+      ],
+    },
+    {
+      id: "recamara_principal",
+      label: "6. Recámara Principal (PB)",
+      desc: "Recámara principal en ala Este con cabecera acanalada, burós, vestidor de madera, cuadros y cancelería hacia el jardín.",
+      src: "assets/panoramas/06_recamara_principal.jpg",
+      initialYaw: 0.25,
+      initialPitch: -0.04,
+      hotspots: [
+        { target: "patio", label: "Salir al Patio Jardín", yaw: -2.65, pitch: -0.02 },
+        { target: "recamaras_tv", label: "Ir a Recámaras 1, 2 y Sala TV", yaw: 1.35, pitch: -0.04 },
+      ],
+    },
+    {
+      id: "recamaras_tv",
+      label: "7. Recámaras 1, 2 y Sala TV",
+      desc: "Zona familiar de planta baja con Sala de TV, acceso a Recámaras 1 y 2 y arranque de la escalera principal hacia planta alta.",
+      src: "assets/panoramas/07_recamaras_sala_tv.jpg",
+      initialYaw: 1.45,
+      initialPitch: -0.04,
+      hotspots: [
+        { target: "pasillo", label: "Subir escaleras a Planta Alta", yaw: -1.85, pitch: 0.18 },
+        { target: "recamara_principal", label: "Ir a Recámara Principal", yaw: -1.25, pitch: -0.02 },
+        { target: "patio", label: "Salir al Patio Jardín", yaw: -2.45, pitch: -0.02 },
       ],
     },
     {
       id: "celosia",
-      label: "5. Fachada Oeste y Celosía",
-      desc: "Vista 360° sobre la pendiente vial hacia la fachada monolítica y celosía vertical de madera.",
-      src: "assets/panoramas/05_fachada_celosia.jpg",
+      label: "8. Fachada Oeste y Celosía",
+      desc: "Vista exterior sobre la pendiente vial mostrando el volumen monolítico blanco y la celosía de madera en cochera.",
+      src: "assets/panoramas/08_fachada_celosia.jpg",
       initialYaw: -1.55,
       initialPitch: 0.03,
       hotspots: [
-        { target: "fachada", label: "Rodear a Fachada Principal", yaw: -0.95, pitch: -0.04 },
-        { target: "sala", label: "Entrar a 1ª Planta", yaw: -1.65, pitch: 0.08 },
+        { target: "entrada", label: "Acercarse a la Entrada Principal", yaw: -1.65, pitch: 0.04 },
+        { target: "fachada", label: "Rodear a Fachada Sur", yaw: -0.85, pitch: -0.03 },
       ],
     },
   ];
@@ -135,7 +175,7 @@ function initTour360() {
       tex.minFilter = THREE.LinearFilter;
       sphereMat.map = tex;
       sphereMat.needsUpdate = true;
-      if (statusEl) statusEl.textContent = "Arrastra 360° para mirar · Haz clic en los puntos para recorrer la casa";
+      if (statusEl) statusEl.textContent = "Arrastra 360° para mirar · Usa los botones o puntos para recorrer toda la casa";
     };
 
     if (texCache.has(st.src)) {
@@ -254,7 +294,7 @@ function initTour360() {
   function animate() {
     requestAnimationFrame(animate);
     if (autoPan && !isDragging) {
-      yaw += 0.0012;
+      yaw += 0.0011;
     }
 
     const lookTarget = new THREE.Vector3(
@@ -265,7 +305,6 @@ function initTour360() {
     camera.lookAt(lookTarget);
     renderer.render(scene, camera);
 
-    // Proyectar hotspots 3D a coordenadas 2D de pantalla
     const w = wrap.clientWidth;
     const h = wrap.clientHeight;
     hotspotEls.forEach(({ btn, pos3D }) => {
