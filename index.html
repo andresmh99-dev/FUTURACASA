@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </head>
 <body>
   <header class="topbar">
@@ -156,55 +157,92 @@
       <div class="container">
         <div class="section-header">
           <div>
-            <p class="eyebrow">Archivo de diseño tridimensional</p>
+            <p class="eyebrow">Visor 3D interactivo en el navegador</p>
             <h2>Modelo 3D en SketchUp</h2>
           </div>
-          <a class="btn btn-primary btn-sm" href="assets/L8_MEXICO_SKP_3.skp" download>
-            Descargar L8_MEXICO_SKP_3.skp
-          </a>
+          <div class="header-actions">
+            <a class="btn btn-outline btn-sm" href="assets/L8_MEXICO_SKP_3.glb" download>
+              Descargar .GLB (288 KB)
+            </a>
+            <a class="btn btn-primary btn-sm" href="assets/L8_MEXICO_SKP_3.skp" download>
+              Descargar .SKP (654 KB)
+            </a>
+          </div>
         </div>
 
         <div class="model-grid">
-          <figure class="card preview-card">
-            <img
-              src="assets/modelo-skp-preview.png"
-              alt="Vista previa del modelo 3D SketchUp L8_MEXICO_SKP_3.skp"
-              loading="lazy"
-            />
-            <figcaption>Vista previa embebida extraída directamente de <code>L8_MEXICO_SKP_3.skp</code>.</figcaption>
-          </figure>
+          <div class="card viewer-card">
+            <div class="svg-header">
+              <span class="mono-tag">WebGL · GLB (desde SketchUp 2025)</span>
+              <div class="viewer-controls" role="group" aria-label="Vistas del modelo 3D">
+                <button type="button" class="chip-btn" data-orbit="35deg 68deg auto">Perspectiva</button>
+                <button type="button" class="chip-btn" data-orbit="0deg 78deg auto">Fachada</button>
+                <button type="button" class="chip-btn" data-orbit="0deg 8deg auto">Planta</button>
+                <button type="button" class="chip-btn" id="toggle-rotate">Auto-rotar</button>
+              </div>
+            </div>
+
+            <div class="viewer-stage">
+              <model-viewer
+                id="lot-model-viewer"
+                src="assets/L8_MEXICO_SKP_3.glb"
+                poster="assets/modelo-skp-preview.png"
+                alt="Modelo 3D arquitectónico del Lote 8, Manzana 147, Fraccionamiento México"
+                camera-controls
+                touch-action="pan-y"
+                shadow-intensity="0.9"
+                exposure="1.05"
+                camera-orbit="35deg 68deg auto"
+                min-camera-orbit="auto 5deg auto"
+                max-camera-orbit="auto 89deg auto"
+                interaction-prompt="auto"
+              >
+                <div class="viewer-fallback" id="viewer-fallback" hidden>
+                  <img src="assets/modelo-skp-preview.png" alt="Vista previa del modelo 3D" />
+                  <p>
+                    El visor 3D interactivo requiere servirse por HTTP/HTTPS (por ejemplo en <strong>GitHub Pages</strong>).
+                    Al abrir <code>index.html</code> directamente como archivo local (<code>file://</code>), el navegador bloquea la carga del archivo <code>.glb</code>.
+                  </p>
+                </div>
+              </model-viewer>
+            </div>
+
+            <div class="svg-footer">
+              <span>Arrastra para rotar · Rueda para zoom · Clic derecho para desplazar</span>
+              <span class="mono-tag">1,798 triángulos · 288 KB</span>
+            </div>
+          </div>
 
           <div class="card info-card">
-            <h3>Detalles del archivo 3D</h3>
+            <h3>Detalles del modelo 3D</h3>
             <dl class="meta-list">
               <div>
-                <dt>Archivo</dt>
-                <dd><code>L8_MEXICO_SKP_3.skp</code></dd>
+                <dt>Archivo original</dt>
+                <dd><code>L8_MEXICO_SKP_3.skp</code> (654 KB)</dd>
               </div>
               <div>
-                <dt>Formato</dt>
-                <dd>SketchUp Model (<code>.skp</code>)</dd>
+                <dt>Versión web 3D</dt>
+                <dd><code>L8_MEXICO_SKP_3.glb</code> (288 KB)</dd>
               </div>
               <div>
-                <dt>Tamaño</dt>
-                <dd>669,674 bytes (~654 KB)</dd>
+                <dt>Origen</dt>
+                <dd>SketchUp 2025 (v25.0.660)</dd>
               </div>
               <div>
-                <dt>Predio asociado</dt>
-                <dd>Lote 8, Manzana 147 · Fracc. México</dd>
+                <dt>Capas incluidas</dt>
+                <dd>Planta baja, 1er nivel, azotea, terreno y curvas</dd>
               </div>
             </dl>
             <div class="callout">
-              <strong>¿Cómo abrir el modelo 3D?</strong>
+              <strong>Visualización directa y edición</strong>
               <p>
-                Los navegadores web no renderizan archivos <code>.skp</code> de forma nativa.
-                Descarga el archivo y ábrelo en <strong>SketchUp Desktop</strong>, <strong>SketchUp Free (Web)</strong>
-                o el visor gratuito <strong>Trimble SketchUp Viewer</strong>.
+                El modelo <code>.glb</code> se renderiza en tiempo real directamente en esta página.
+                Si necesitas editar la geometría original o consultar cotas y capas en SketchUp, descarga el archivo <code>.skp</code>.
               </p>
             </div>
             <div class="card-actions">
               <a class="btn btn-primary" href="assets/L8_MEXICO_SKP_3.skp" download>Descargar .SKP</a>
-              <a class="btn btn-outline" href="https://app.sketchup.com/" target="_blank" rel="noopener">Abrir SketchUp Web</a>
+              <a class="btn btn-outline" href="assets/L8_MEXICO_SKP_3.glb" download>Descargar .GLB</a>
             </div>
           </div>
         </div>
