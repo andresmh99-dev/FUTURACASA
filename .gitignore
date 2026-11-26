@@ -5,3 +5,5 @@ desktop.ini
 optix7cache.db
 *.blend1
 .cache/
+__pycache__/
+*.pyc
