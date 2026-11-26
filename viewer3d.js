@@ -1,8 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
-import { buildCasaL8Model } from "./casa-l8-model.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const container = document.getElementById("viewer-canvas-wrap");
 if (container) {
@@ -15,22 +14,21 @@ function createSkyDome() {
   canvas.height = 256;
   const ctx = canvas.getContext("2d");
   const grad = ctx.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0.0, "#6fa5db");
-  grad.addColorStop(0.36, "#bfd8ee");
-  grad.addColorStop(0.51, "#f9f7f2");
-  grad.addColorStop(0.58, "#939c82");
-  grad.addColorStop(1.0, "#5a6347");
+  grad.addColorStop(0.0, "#5e97d4");
+  grad.addColorStop(0.36, "#b7d4ee");
+  grad.addColorStop(0.51, "#f7f5f0");
+  grad.addColorStop(0.58, "#8c967a");
+  grad.addColorStop(1.0, "#556044");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 512, 256);
 
-  // Soft sunlit cirrus clouds matching Render 2 & Render 5
   for (let i = 0; i < 24; i++) {
     const cx = Math.random() * 512;
-    const cy = 28 + Math.random() * 74;
+    const cy = 24 + Math.random() * 76;
     const rx = 28 + Math.random() * 75;
     const ry = 6 + Math.random() * 14;
     const cg = ctx.createRadialGradient(cx, cy, 2, cx, cy, rx);
-    cg.addColorStop(0, "rgba(255,255,255,0.42)");
+    cg.addColorStop(0, "rgba(255,255,255,0.46)");
     cg.addColorStop(1, "rgba(255,255,255,0)");
     ctx.fillStyle = cg;
     ctx.save();
@@ -71,61 +69,62 @@ function initViewer() {
 
   if (fallbackEl) fallbackEl.hidden = true;
 
-  // 7 paradas guiadas calibradas al nuevo modelo abierto (plano A-1 + 5 renders)
+  // 7 paradas guiadas calibradas al modelo exacto 1:1 de Blender (assets/casa_l8_abierta.glb)
+  // Coordenadas Three.js: X = [0..15.07], Y = [0.00 Patio .. 3.24 Sala .. 6.15 Techo], Z = [-20.6 Norte .. 0.0 Sur]
   const TOUR_STATIONS = [
     {
       name: "1. Fachada Sur y Vialidad",
-      desc: "Volumen superior en voladizo sobre barda perimetral y franja horizontal iluminada.",
-      pos: new THREE.Vector3(10.5, 3.2, 34.5),
-      target: new THREE.Vector3(8.5, 2.8, 14.0),
+      desc: "Volumen superior en voladizo 1:1 sobre barda perimetral, franja LED y vialidad curva.",
+      pos: new THREE.Vector3(5.2, 2.9, 14.5),
+      target: new THREE.Vector3(7.4, 3.2, -3.5),
       render: "assets/galeria/PHOTO-2025-12-28-22-40-36.jpg",
       lightboxIndex: 1,
     },
     {
       name: "2. Perspectiva Esquina y Voladizo",
-      desc: "Ventanal panorámico del 1er nivel, franja cálida inferior y árboles del patio.",
-      pos: new THREE.Vector3(26.5, 4.4, 27.5),
-      target: new THREE.Vector3(10.0, 2.8, 12.0),
+      desc: "Ventanal panorámico del 1er nivel, franja cálida inferior y árboles en flor del patio.",
+      pos: new THREE.Vector3(17.8, 3.3, 10.0),
+      target: new THREE.Vector3(7.5, 3.4, -3.6),
       render: "assets/galeria/PHOTO-2025-12-28-22-39-50.jpg",
       lightboxIndex: 0,
     },
     {
       name: "3. Fachada Oeste — Celosía y Cochera",
-      desc: "Muro monolítico siguiendo la pendiente con celosía vertical de madera en cochera.",
-      pos: new THREE.Vector3(-13.5, 3.6, 10.0),
-      target: new THREE.Vector3(2.0, 3.6, 9.5),
+      desc: "Muro monolítico siguiendo la pendiente con celosía de madera y pérgola en cochera.",
+      pos: new THREE.Vector3(-12.2, 4.0, -11.5),
+      target: new THREE.Vector3(3.5, 3.9, -11.8),
       render: "assets/galeria/PHOTO-2025-12-28-22-41-14.jpg",
       lightboxIndex: 4,
     },
     {
-      name: "4. Patio Jardín y Recámaras (Sótano)",
-      desc: "Jardín interior privado con andadores, rocas, árboles en flor, terraza y ventanales.",
-      pos: new THREE.Vector3(13.6, 1.65, 7.6),
-      target: new THREE.Vector3(8.6, 1.4, 2.8),
+      name: "4. Patio Jardín y Recámaras (PB)",
+      desc: "Jardín interior privado con deck de pizarra, sillones de rattan, rocas, lavanda y canceles.",
+      pos: new THREE.Vector3(11.2, 1.65, -4.4),
+      target: new THREE.Vector3(11.8, 1.45, -11.4),
       render: "assets/galeria/PHOTO-2025-12-28-22-40-59.jpg",
       lightboxIndex: 3,
     },
     {
       name: "5. Sala, Comedor y Cocina (1ª Planta)",
-      desc: "Planta abierta con cocina de mármol e isla oscura, sala en L y vista panorámica.",
-      pos: new THREE.Vector3(11.6, 4.95, 17.6),
-      target: new THREE.Vector3(11.2, 4.75, 9.2),
+      desc: "Cocina Calacatta hasta plafón, isla real, sofá entallado, comedor de vidrio y pasillo.",
+      pos: new THREE.Vector3(4.2, 4.55, -1.2),
+      target: new THREE.Vector3(5.8, 4.40, -5.6),
       render: "assets/galeria/PHOTO-2025-12-28-22-40-48.jpg",
       lightboxIndex: 2,
     },
     {
-      name: "6. Vista Interior Sótano (Recámaras)",
-      desc: "Recámaras con ventanales piso a techo hacia el patio jardín y escalera interior.",
-      pos: new THREE.Vector3(6.8, 1.65, 13.4),
-      target: new THREE.Vector3(6.4, 1.4, 4.5),
+      name: "6. Recámara Principal y Planta Baja",
+      desc: "Recámaras con cabecera acanalada, cuadros de galería y salida directa al patio jardín.",
+      pos: new THREE.Vector3(7.5, 1.72, -3.7),
+      target: new THREE.Vector3(6.2, 1.35, -2.2),
       render: "assets/galeria/PHOTO-2025-12-28-22-40-59.jpg",
       lightboxIndex: 3,
     },
     {
-      name: "7. Vista Aérea y Azotea",
-      desc: "Conjunto completo sobre el Lote 8: pérgola de cochera, azotea, patio y vialidad.",
-      pos: new THREE.Vector3(28.0, 19.5, 29.0),
-      target: new THREE.Vector3(7.8, 2.5, 10.0),
+      name: "7. Vista Aérea y Conjunto 1:1",
+      desc: "Vista completa del proyecto 1:1 sobre el Lote 8: pérgola, azotea, patio y calle curva.",
+      pos: new THREE.Vector3(24.5, 16.0, 11.0),
+      target: new THREE.Vector3(7.5, 3.2, -9.5),
       render: "assets/galeria/PHOTO-2025-12-28-22-39-50.jpg",
       lightboxIndex: 0,
     },
@@ -134,7 +133,7 @@ function initViewer() {
   // Escena, cielo y renderer
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xd5e4f2);
-  scene.fog = new THREE.Fog(0xdce6ee, 68, 170);
+  scene.fog = new THREE.Fog(0xdce6ee, 55, 160);
   scene.add(createSkyDome());
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
@@ -142,7 +141,7 @@ function initViewer() {
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.06;
+  renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.localClippingEnabled = true;
@@ -150,10 +149,10 @@ function initViewer() {
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.42;
+  scene.environmentIntensity = 0.48;
 
   const camera = new THREE.PerspectiveCamera(
-    50,
+    48,
     container.clientWidth / container.clientHeight,
     0.1,
     350
@@ -165,94 +164,181 @@ function initViewer() {
   controls.dampingFactor = 0.07;
   controls.target.copy(TOUR_STATIONS[1].target);
   controls.maxPolarAngle = Math.PI * 0.495;
-  controls.minDistance = 1.0;
-  controls.maxDistance = 95;
+  controls.minDistance = 0.8;
+  controls.maxDistance = 85;
   controls.update();
 
-  // Iluminación arquitectónica cálida + luces interiores
-  const hemiLight = new THREE.HemisphereLight(0xeef6ff, 0x7c8468, 0.95);
+  // Iluminación arquitectónica Suroeste sincronizada con Blender Cycles
+  const hemiLight = new THREE.HemisphereLight(0xeef6ff, 0x7c8468, 0.92);
   hemiLight.position.set(0, 45, 0);
   scene.add(hemiLight);
 
-  // Sol lateral bajo de tarde para arrojar sombras diagonales nítidas del voladizo y árboles (como en Renders 1 y 2)
-  const sunLight = new THREE.DirectionalLight(0xfff1d6, 2.35);
-  sunLight.position.set(-22, 24, 34);
+  const sunLight = new THREE.DirectionalLight(0xfff1d6, 2.25);
+  sunLight.position.set(-24, 24, 22);
+  sunLight.target.position.set(7.5, 2.5, -9.0);
+  scene.add(sunLight.target);
   sunLight.castShadow = true;
   sunLight.shadow.mapSize.set(2048, 2048);
-  sunLight.shadow.camera.near = 5;
-  sunLight.shadow.camera.far = 120;
-  sunLight.shadow.camera.left = -30;
-  sunLight.shadow.camera.right = 30;
-  sunLight.shadow.camera.top = 30;
-  sunLight.shadow.camera.bottom = -30;
-  sunLight.shadow.bias = -0.0004;
+  sunLight.shadow.camera.near = 4;
+  sunLight.shadow.camera.far = 110;
+  sunLight.shadow.camera.left = -28;
+  sunLight.shadow.camera.right = 28;
+  sunLight.shadow.camera.top = 28;
+  sunLight.shadow.camera.bottom = -28;
+  sunLight.shadow.bias = -0.0005;
   scene.add(sunLight);
 
   const fillLight = new THREE.DirectionalLight(0xd2e4f8, 0.65);
-  fillLight.position.set(28, 18, -16);
+  fillLight.position.set(28, 18, -22);
   scene.add(fillLight);
 
-  // Luces cálidas en Primera Planta (Cocina/Sala) y Sótano (Patio/Recámaras)
-  const livingLight = new THREE.PointLight(0xffd796, 22, 18, 1.45);
-  livingLight.position.set(11.4, 5.75, 13.0);
+  // Luces interiores cálidas (1ª Planta y Planta Baja)
+  const livingLight = new THREE.PointLight(0xffdfb0, 18, 16, 1.4);
+  livingLight.position.set(5.4, 5.6, -3.5);
   scene.add(livingLight);
 
-  const kitchenLight = new THREE.PointLight(0xffcf82, 16, 12, 1.5);
-  kitchenLight.position.set(10.5, 5.1, 9.5);
+  const kitchenLight = new THREE.PointLight(0xffd28a, 16, 12, 1.5);
+  kitchenLight.position.set(5.6, 5.2, -6.5);
   scene.add(kitchenLight);
 
-  const patioLight = new THREE.PointLight(0xffd08c, 16, 16, 1.5);
-  patioLight.position.set(11.8, 2.2, 4.0);
+  const patioLight = new THREE.PointLight(0xffd494, 14, 16, 1.45);
+  patioLight.position.set(11.8, 2.4, -9.0);
   scene.add(patioLight);
 
-  const bedLight = new THREE.PointLight(0xffd490, 12, 14, 1.5);
-  bedLight.position.set(5.2, 2.3, 11.5);
-  scene.add(bedLight);
+  const bedLight1 = new THREE.PointLight(0xffd28a, 14, 12, 1.5);
+  bedLight1.position.set(6.5, 2.2, -2.5);
+  scene.add(bedLight1);
 
-  // Plano de corte horizontal (Y = 0..8.5 m)
+  const bedLight2 = new THREE.PointLight(0xffd28a, 14, 12, 1.5);
+  bedLight2.position.set(6.4, 2.2, -9.5);
+  scene.add(bedLight2);
+
+  // Plano de corte horizontal (Y = 0.5 .. 8.5 m)
   const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 8.5);
 
-  // Construir modelo paramétrico abierto desde A-1
-  const { root: casaRoot, layers } = buildCasaL8Model(clipPlane);
-  scene.add(casaRoot);
+  // Grupos por nivel para los botones Azotea / 1ª Planta / Sótano
+  const layerMeshes = {
+    azotea: [],
+    primeraPlanta: [],
+    sotano: [],
+  };
+  const layerVisible = {
+    azotea: true,
+    primeraPlanta: true,
+    sotano: true,
+  };
+
+  if (statusEl) statusEl.textContent = "Cargando modelo 3D abierto 1:1 amueblado (.GLB)…";
+
+  const loader = new GLTFLoader();
+  loader.load(
+    "assets/casa_l8_abierta.glb",
+    (gltf) => {
+      const root = gltf.scene;
+      scene.add(root);
+      root.updateMatrixWorld(true);
+
+      const box = new THREE.Box3();
+      const center = new THREE.Vector3();
+
+      root.traverse((child) => {
+        if (!child.isMesh) return;
+        const name = child.name || "";
+        const isTerrain = name.includes("Terreno") || name.includes("Vialidad");
+        const isGlass =
+          (child.material && child.material.name === "Vidrio_ArchViz") ||
+          name.includes("Glass") ||
+          name.includes("Vidrio");
+        const isLeaf =
+          name.includes("leaf") || name.includes("blossom") || name.includes("Lavanda");
+
+        child.castShadow = !isGlass && !isTerrain;
+        child.receiveShadow = !isGlass;
+
+        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        mats.forEach((m) => {
+          if (!m) return;
+          if (!isTerrain) {
+            m.clippingPlanes = [clipPlane];
+            m.clipShadows = true;
+          }
+          if (isGlass) {
+            m.transparent = true;
+            m.opacity = 0.24;
+            m.depthWrite = false;
+            m.side = THREE.DoubleSide;
+          } else if (isLeaf) {
+            m.side = THREE.DoubleSide;
+          }
+          m.needsUpdate = true;
+        });
+
+        // Clasificar malla en capa de nivel (sin ocultar terreno ni calle)
+        if (!isTerrain && !name.startsWith("mesh-")) {
+          box.setFromObject(child);
+          box.getCenter(center);
+          if (
+            name.includes("Pergola") ||
+            name.includes("Sellado_Plafon_1P") ||
+            name.includes("Marquesina") ||
+            name.includes("Viga_") ||
+            center.y >= 5.95
+          ) {
+            layerMeshes.azotea.push(child);
+          } else if (center.y >= 2.85) {
+            layerMeshes.primeraPlanta.push(child);
+          } else {
+            layerMeshes.sotano.push(child);
+          }
+        }
+      });
+
+      if (statusEl) {
+        statusEl.textContent = "Modelo 3D abierto 1:1 cargado (sincronizado con Recorrido 360°) · 7 paradas";
+      }
+    },
+    undefined,
+    (err) => {
+      console.error("Error cargando assets/casa_l8_abierta.glb:", err);
+      if (fallbackEl) fallbackEl.hidden = false;
+      if (statusEl) statusEl.textContent = "No se pudo cargar el modelo .GLB (requiere servidor HTTP/HTTPS)";
+    }
+  );
 
   // Toggles de niveles arquitectónicos (Azotea, 1ª Planta, Sótano)
   document.querySelectorAll("[data-layer]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const key = btn.dataset.layer;
-      if (!layers[key]) return;
-      layers[key].visible = !layers[key].visible;
-      btn.classList.toggle("is-active", layers[key].visible);
+      if (!(key in layerVisible)) return;
+      layerVisible[key] = !layerVisible[key];
+      layerMeshes[key].forEach((mesh) => {
+        mesh.visible = layerVisible[key];
+      });
+      btn.classList.toggle("is-active", layerVisible[key]);
+      // Si ocultan Azotea, ajustar clipPlane a 6.05 m para abrir también el techo real de mesh-0!
+      if (key === "azotea" && clipSlider) {
+        const targetClip = layerVisible.azotea ? 8.5 : 5.95;
+        clipSlider.value = String(targetClip);
+        clipPlane.constant = targetClip;
+        if (clipValueEl) {
+          clipValueEl.textContent = targetClip >= 8.4 ? "Completo" : `Corte ${targetClip.toFixed(1)} m`;
+        }
+      }
     });
   });
 
-  // Exportar modelo abierto a .GLB (estándar abierto Khronos, sin SketchUp)
+  // Descargar directamente el modelo abierto 1:1 (.GLB exportado desde Blender 5.3)
   exportGlbBtn?.addEventListener("click", () => {
-    if (statusEl) statusEl.textContent = "Exportando modelo abierto a .GLB…";
-    const exporter = new GLTFExporter();
-    exporter.parse(
-      casaRoot,
-      (binary) => {
-        const blob = new Blob([binary], { type: "model/gltf-binary" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "Casa_L8_M147_Modelo_Abierto.glb";
-        a.click();
-        URL.revokeObjectURL(url);
-        if (statusEl) statusEl.textContent = "Modelo abierto exportado (Casa_L8_M147_Modelo_Abierto.glb)";
-      },
-      (err) => {
-        console.error(err);
-        if (statusEl) statusEl.textContent = "Error al exportar .GLB";
-      },
-      { binary: true }
-    );
+    const a = document.createElement("a");
+    a.href = "assets/casa_l8_abierta.glb";
+    a.download = "Casa_L8_M147_Modelo_Abierto_1a1.glb";
+    a.click();
+    if (statusEl) statusEl.textContent = "Descargando Casa_L8_M147_Modelo_Abierto_1a1.glb (6.3 MB)";
   });
 
   // Estado de recorrido y caminar
   let mode = "orbit";
-  let currentStation = 1; // Inicia en Perspectiva Esquina y Voladizo
+  let currentStation = 1;
   let isPlayingTour = false;
   let tourHoldTimer = 0;
   let transition = null;
@@ -285,19 +371,19 @@ function initViewer() {
       stopTour();
       transition = null;
       controls.enabled = false;
-      if (camera.position.distanceTo(new THREE.Vector3(8, 3, 10)) > 24) {
-        camera.position.set(11.6, 4.95, 17.2);
-        camera.lookAt(11.0, 4.75, 9.5);
+      if (camera.position.distanceTo(new THREE.Vector3(7.5, 3.0, -7.0)) > 22) {
+        camera.position.set(4.4, 4.65, -1.6);
+        camera.lookAt(5.8, 4.45, -6.2);
       }
       syncYawPitchFromCamera();
-      if (statusEl) statusEl.textContent = "Modo Caminar · WASD/Flechas + arrastra para mirar";
+      if (statusEl) statusEl.textContent = "Modo Caminar 1:1 · WASD/Flechas + arrastra para mirar";
     } else {
       controls.enabled = true;
       const forward = new THREE.Vector3();
       camera.getWorldDirection(forward);
       controls.target.copy(camera.position).addScaledVector(forward, 6);
       controls.update();
-      if (statusEl) statusEl.textContent = "Modelo abierto listo (Plano A-1) · Explora o inicia el recorrido";
+      if (statusEl) statusEl.textContent = "Modelo 3D abierto 1:1 · Explora libremente o inicia el recorrido";
     }
   }
 
@@ -358,7 +444,6 @@ function initViewer() {
     });
   }
   updateTourUI();
-  if (statusEl) statusEl.textContent = "Modelo paramétrico abierto (Plano A-1) · 7 paradas guiadas";
 
   playBtn?.addEventListener("click", () => {
     if (isPlayingTour) {
@@ -387,14 +472,14 @@ function initViewer() {
       if (mode !== "walk") setMode("walk");
       const y = parseFloat(btn.dataset.floorY);
       if (y < 2.5) {
-        camera.position.set(12.2, y, 7.2);
-        camera.lookAt(8.5, y - 0.1, 3.0);
+        camera.position.set(11.2, 1.65, -4.8);
+        camera.lookAt(11.8, 1.45, -11.4);
       } else if (y < 6.0) {
-        camera.position.set(11.6, y, 17.2);
-        camera.lookAt(11.0, y - 0.1, 9.5);
+        camera.position.set(4.4, 4.65, -1.6);
+        camera.lookAt(5.8, 4.45, -6.2);
       } else {
-        camera.position.set(12.0, y, 17.5);
-        camera.lookAt(7.5, 6.2, 9.0);
+        camera.position.set(12.0, 7.6, -2.0);
+        camera.lookAt(7.5, 5.8, -9.5);
       }
       syncYawPitchFromCamera();
     });
@@ -513,7 +598,7 @@ function initViewer() {
     }
 
     if (mode === "walk") {
-      const speed = (keys.has("ShiftLeft") || keys.has("ShiftRight") ? 7.0 : 3.6) * dt;
+      const speed = (keys.has("ShiftLeft") || keys.has("ShiftRight") ? 6.5 : 3.4) * dt;
       const fInput =
         (keys.has("KeyW") || keys.has("ArrowUp") ? 1 : 0) -
         (keys.has("KeyS") || keys.has("ArrowDown") ? 1 : 0) +
@@ -533,7 +618,7 @@ function initViewer() {
 
         camera.position.addScaledVector(moveForward, fInput * speed);
         camera.position.addScaledVector(moveRight, rInput * speed);
-        camera.position.y = THREE.MathUtils.clamp(camera.position.y + uInput * speed * 0.75, 0.6, 18.0);
+        camera.position.y = THREE.MathUtils.clamp(camera.position.y + uInput * speed * 0.75, 0.5, 16.0);
       }
     } else {
       controls.update();
